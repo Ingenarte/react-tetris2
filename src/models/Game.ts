@@ -11,7 +11,8 @@ import {
   moveLeft,
   moveRight,
   setPiece,
-  hardDrop
+  hardDrop,
+  clearFullLines
 } from './Matrix';
 import Constants from '../constants';
 import * as PieceQueue from '../modules/piece-queue';
@@ -19,6 +20,10 @@ import * as PieceQueue from '../modules/piece-queue';
 export type State = 'PAUSED' | 'PLAYING' | 'LOST';
 
 type HeldPiece = { available: boolean; piece: Piece };
+
+function every<T>(list: T[]): boolean {
+  return list.every(Boolean);
+}
 
 export type Game = {
   state: State;
@@ -28,6 +33,8 @@ export type Game = {
   queue: PieceQueue.PieceQueue;
   points: number;
   lines: number;
+  justCleared?: number[];
+  pendingClear?: boolean;
 };
 
 export const getLevel = (game: Game): number => Math.floor(game.lines / 10) + 1;
@@ -67,10 +74,42 @@ export const update = (game: Game, action: Action): Game => {
       const piece = hardDrop(game.matrix, game.piece);
       return lockInPiece({ ...game, piece });
     }
-    case 'TICK':
     case 'MOVE_DOWN': {
       if (game.state !== 'PLAYING') return game;
+
+      // si hubiera una limpieza diferida, la aplicamos primero
+      if (game.pendingClear) {
+        const [newMatrix, _idx, linesCleared] = clearFullLines(game.matrix);
+        return commitPiece(
+          { ...game, matrix: newMatrix },
+          newMatrix,
+          linesCleared
+        );
+      }
+
+      // intentamos bajar la pieza
       const updated = applyMove(moveDown, game);
+
+      // si no pudo bajar, se bloquea y se evalúan líneas
+      if (game.piece === updated.piece) {
+        return lockInPiece(updated);
+      }
+      // si sí bajó, devolvemos el estado actualizado
+      return updated;
+    }
+    case 'TICK': {
+      if (game.state !== 'PLAYING') return game;
+
+      if (game.pendingClear) {
+        const [newMatrix, _idx, linesCleared] = clearFullLines(game.matrix);
+        return commitPiece(
+          { ...game, matrix: newMatrix },
+          newMatrix,
+          linesCleared
+        );
+      }
+      const updated = applyMove(moveDown, game);
+
       if (game.piece === updated.piece) {
         return lockInPiece(updated);
       } else {
@@ -115,14 +154,19 @@ export const update = (game: Game, action: Action): Game => {
       };
     }
     default: {
-      const exhaustiveCheck: never = action;
-      throw new Error(`Unhandled action: ${exhaustiveCheck}`);
+      throw new Error(`Unhandled action: ${action}`);
     }
   }
 };
 
-const lockInPiece = (game: Game): Game => {
-  const [matrix, linesCleared] = setPiece(game.matrix, game.piece);
+export function getClearedLineIndexes(matrix: Matrix): number[] {
+  return matrix.reduce<number[]>((acc, row, y) => {
+    if (every(row)) acc.push(y);
+    return acc;
+  }, []);
+}
+
+function commitPiece(game: Game, matrix: Matrix, linesCleared: number): Game {
   const next = PieceQueue.getNext(game.queue);
   const piece = initializePiece(next.piece);
   return {
@@ -135,10 +179,27 @@ const lockInPiece = (game: Game): Game => {
       : undefined,
     queue: next.queue,
     lines: game.lines + linesCleared,
-    points: game.points + addScore(linesCleared)
+    points: game.points + addScore(linesCleared),
+    justCleared: [],
+    pendingClear: false
   };
-};
+}
 
+const lockInPiece = (game: Game): Game => {
+  const matrixWithPiece = setPiece(game.matrix, game.piece);
+
+  const justCleared = getClearedLineIndexes(matrixWithPiece);
+  if (justCleared.length > 0) {
+    return {
+      ...game,
+      matrix: matrixWithPiece,
+      justCleared, // <- líneas a animar
+      pendingClear: true // <- flag para que el próximo tick limpie realmente
+    };
+  }
+
+  return commitPiece(game, matrixWithPiece, 0);
+};
 const pointsPerLine = 100;
 const addScore = (additionalLines: number) => {
   // what's this called?

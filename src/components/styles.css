@@ -17,3 +17,25 @@
   border: 1px dashed rgba(255, 255, 255, 0.15);
   border-radius: 4px;
 }
+
+.game-block {
+  width: var(--block-size);
+  height: var(--block-size);
+  box-sizing: border-box;
+  border: 1px solid #222;
+}
+
+.cleared-line {
+  animation: flashOut 200ms ease-in-out forwards;
+}
+
+@keyframes flashOut {
+  0% {
+    background-color: #ffffff;
+    opacity: 1;
+  }
+  100% {
+    background-color: transparent;
+    opacity: 0.3;
+  }
+}

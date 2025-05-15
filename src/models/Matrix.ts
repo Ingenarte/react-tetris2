@@ -77,26 +77,29 @@ export type PositionedPiece = {
 export function setPiece(
   matrix: Matrix,
   positionedPiece: PositionedPiece
-): [Matrix, number] {
-  const _matrix = addPieceToBoard(matrix, positionedPiece);
-  // TODO: purify
-  const linesCleared = clearFullLines(_matrix);
-  return [_matrix, linesCleared];
+): Matrix {
+  return addPieceToBoard(matrix, positionedPiece);
 }
+export function clearFullLines(matrix: Matrix): [Matrix, number[], number] {
+  const indexes: number[] = [];
+  const newMatrix: Matrix = [];
+  let cleared = 0;
 
-function clearFullLines(matrix: Matrix): number {
-  let linesCleared = 0;
   for (let y = 0; y < matrix.length; y++) {
-    // it's a full line
     if (every(matrix[y]!)) {
-      // so rip it out
-      matrix.splice(y, 1);
-      matrix.unshift(buildGameRow());
-      linesCleared += 1;
+      // fila llena
+      indexes.push(y); // marcas para animar
+      cleared++;
+    } else {
+      newMatrix.push(matrix[y]!); // filas que quedan
     }
   }
 
-  return linesCleared;
+  while (newMatrix.length < matrix.length) {
+    newMatrix.unshift(buildGameRow()); // “caen” las de arriba
+  }
+
+  return [newMatrix, indexes, cleared];
 }
 
 function every<T>(list: T[]): boolean {
