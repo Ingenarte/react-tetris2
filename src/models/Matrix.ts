@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Constants from '../constants';
-import { Piece, Rotation, getBlocks, isRotation } from './Piece';
+import { getBlocks, isRotation } from './Piece';
+import type { Piece, Rotation } from './Piece';
 
 const { GAME_HEIGHT, GAME_WIDTH } = Constants;
 

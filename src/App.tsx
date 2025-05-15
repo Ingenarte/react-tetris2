@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import GamePanel from './GamePanel';
-import TypedShell from './TypedShell';
+import TypedShell from '../app/TypedShell';
+import GamePanel from '../app/GamePanel';
 
 const Container = styled.div`
   box-sizing: border-box;
