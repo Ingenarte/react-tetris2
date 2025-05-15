@@ -1,5 +1,6 @@
 import React from 'react';
 import { getBlocks, getClassName, Piece } from '../models/Piece';
+import './styles.css';
 
 type Props = {
   piece?: Piece;
@@ -13,28 +14,32 @@ const defaultBlock = [
 ] as const;
 
 const PieceView: React.FC<Props> = ({ piece }): JSX.Element => {
-  const fromPiece = piece && getBlocks(piece)[0];
+  const rotation = piece?.rotation ?? 0;
+  const fromPiece = piece ? getBlocks(piece)[rotation] : undefined;
   const blocks = fromPiece ?? defaultBlock;
 
-  const rows = blocks.map((row, i) => {
-    const blocksInRow = row.map((block, j) => {
-      let classString = 'game-block ';
+  const className = piece ? getClassName(piece) : '';
 
-      if (piece && block) {
-        classString += getClassName(piece);
-      } else {
-        classString += 'block-empty';
-      }
 
-      return <td key={j} className={classString} />;
-    });
-
-    return <tr key={i}>{blocksInRow}</tr>;
-  });
   return (
-    <table className="piece-view">
-      <tbody>{rows}</tbody>
-    </table>
+    <div
+      className="piece-view"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${blocks[0].length}, var(--preview-size))`,
+        gridTemplateRows: `repeat(${blocks.length}, var(--preview-size))`,
+        gap: '0'
+      }}
+    >
+      {blocks.flatMap((row, i) =>
+        row.map((block, j) => {
+          const cellClass = `game-block ${
+            block && piece ? className : 'block-empty'
+          } piece-preview`;
+          return <div key={`${i}-${j}`} className={cellClass} />;
+        })
+      )}
+    </div>
   );
 };
 

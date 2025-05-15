@@ -5,24 +5,43 @@ import Controller from './Controller';
 
 const Container = styled.div`
   margin: 24px auto 0;
-  width: 100%;
-  max-width: 376px;
+  // width: 100%;
+  // max-width: 476px;
+  padding: 0 1rem;
 `;
 
 const Score = styled.div`
-  position: relative;
-  font-family: monospace;
-  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Montserrat';
+  font-size: clamp(16px, 2vw, 24px);
   color: #888;
+  margin-bottom: 1rem;
 `;
 
 const LeftHalf = styled.div`
-  display: inline-block;
-  width: 50%;
+  text-align: left;
 `;
 
-const RightHalf = styled(LeftHalf)`
+const RightHalf = styled.div`
   text-align: right;
+`;
+
+const LabelText = styled.p`
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 600;
+  margin: 0;
+  text-transform: uppercase;
+  color: #aaa;
+  font-family: 'Montserrat', sans-serif;
+`;
+
+const Digit = styled.span`
+  font-family: 'Montserrat';
+  padding: 1px;
+  margin: 1px;
+  font-size: clamp(20px, 5vw, 36px);
 `;
 
 const Column = styled.div`
@@ -31,7 +50,7 @@ const Column = styled.div`
 `;
 
 const LeftColumn = styled(Column)`
-  width: 88px;
+  width: clamp(60px, 20vw, 88px);
 `;
 
 const RightColumn = styled(LeftColumn)`
@@ -39,7 +58,7 @@ const RightColumn = styled(LeftColumn)`
 `;
 
 const MiddleColumn = styled(Column)`
-  width: 200px;
+  width: clamp(180px, 50vw, 240px);
 `;
 
 const Popup = styled.div`
@@ -47,23 +66,59 @@ const Popup = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #fff;
+  background: rgba(27, 19, 44, 0.95); /* tono violeta oscuro traslúcido */
   padding: 12px 24px;
-  border-radius: 4px;
+  border-radius: 8px;
   text-align: center;
-  box-shadow: 2px 7px 18px 3px #d2d2d2;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+  max-width: 90%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const Alert = styled.h2`
-  color: #666;
+  color: #f0f0f0;
   margin: 0;
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 400;
 `;
 
 const Button = styled.button`
-  border: 1px solid #666;
-  background: none;
-  margin-top: 12px;
-  border-radius: 4px;
+  margin-top: 24px;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  font-size: clamp(24px, 2vw, 36px);
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  background: #28203e;
+  color: #f0f0f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+
+  &:hover {
+    background: #3a2c5b;
+    transform: scale(1.02);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+const ColumnsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-bottom: 1rem;
+
+  @media (max-width: 500px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const GamePanel = (): JSX.Element => (
@@ -82,32 +137,27 @@ const GamePanel = (): JSX.Element => (
           <div style={{ opacity: state === 'PLAYING' ? 1 : 0.5 }}>
             <Score>
               <LeftHalf>
-                <p>
-                  points
-                  <br />
-                  <Digits>{points}</Digits>
-                </p>
+                <LabelText>points</LabelText>
+                <Digits>{points}</Digits>
               </LeftHalf>
               <RightHalf>
-                <p>
-                  lines
-                  <br />
-                  <Digits>{linesCleared}</Digits>
-                </p>
+                <LabelText>lines</LabelText>
+                <Digits>{linesCleared}</Digits>
               </RightHalf>
             </Score>
+            <ColumnsWrapper>
+              <LeftColumn>
+                <HeldPiece />
+              </LeftColumn>
 
-            <LeftColumn>
-              <HeldPiece />
-            </LeftColumn>
+              <MiddleColumn>
+                <Gameboard />
+              </MiddleColumn>
 
-            <MiddleColumn>
-              <Gameboard />
-            </MiddleColumn>
-
-            <RightColumn>
-              <PieceQueue />
-            </RightColumn>
+              <RightColumn>
+                <PieceQueue />
+              </RightColumn>
+            </ColumnsWrapper>
 
             {/* <Controller controller={controller} /> */}
           </div>
@@ -129,13 +179,6 @@ const GamePanel = (): JSX.Element => (
     </Tetris>
   </Container>
 );
-
-const Digit = styled.span`
-  font-family: monospace;
-  padding: 1px;
-  margin: 1px;
-  font-size: 24px;
-`;
 
 type DigitsProps = {
   children: number;

@@ -8,19 +8,28 @@ export default function GameboardView(): JSX.Element {
   const matrix = viewMatrix(game);
 
   return (
-    <table className="game-board">
-      <tbody>
-        {matrix.map((row, i) => {
-          const blocksInRow = row.map((block, j) => {
-            const classString = `game-block ${
-              block ? getClassName(block) : 'block-empty'
-            }`;
-            return <td key={j} className={classString} />;
-          });
+    <div
+      className="game-board"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${matrix[0].length}, var(--block-size))`,
+        gridTemplateRows: `repeat(${matrix.length}, var(--block-size))`
+      }}
+    >
+      {matrix.flatMap((row, i) =>
+        row.map((block, j) => {
+          let classString = 'game-block';
 
-          return <tr key={i}>{blocksInRow}</tr>;
-        })}
-      </tbody>
-    </table>
+          if (!block) {
+            classString += ' block-empty';
+          } else if (block === 'ghost') {
+            classString += ' ghost';
+          } else {
+            classString += ` ${getClassName(block)}`;
+          }
+          return <div key={`${i}-${j}`} className={classString} />;
+        })
+      )}
+    </div>
   );
 }

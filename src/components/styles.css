@@ -1,0 +1,19 @@
+:root {
+  --preview-size: clamp(12px, 3vw, 18px);
+}
+
+.piece-view {
+  margin-bottom: 12px;
+}
+
+.piece-view .game-block {
+  width: var(--preview-size);
+  height: var(--preview-size);
+  aspect-ratio: 1 / 1;
+}
+
+.ghost {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
