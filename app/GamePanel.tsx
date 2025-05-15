@@ -109,7 +109,7 @@ const GamePanel = (): JSX.Element => (
               <PieceQueue />
             </RightColumn>
 
-            <Controller controller={controller} />
+            {/* <Controller controller={controller} /> */}
           </div>
           {state === 'PAUSED' && (
             <Popup>

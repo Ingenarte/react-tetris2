@@ -17,16 +17,6 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Header = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  background: #fafafa;
-  border-bottom: 1px solid #eaeaea;
-  padding: 0 18px;
-`;
-
 const VerticallyCenterChildren = styled.div`
   display: flex;
   flex: 1;
@@ -35,23 +25,8 @@ const VerticallyCenterChildren = styled.div`
   flex-direction: column;
 `;
 
-const Title = styled.h1`
-  font-weight: 300;
-  color: #000;
-`;
-
-const SubTitle = styled.h2`
-  font-weight: 300;
-  font-size: 18px;
-`;
-
 const App = (): JSX.Element => (
   <Container>
-    <Header>
-      <Title>react-tetris</Title>
-      <SubTitle>Embed a game of Tetris in your React app</SubTitle>
-      <TypedShell>npm install --save react-tetris</TypedShell>
-    </Header>
     <VerticallyCenterChildren>
       <GamePanel />
     </VerticallyCenterChildren>
