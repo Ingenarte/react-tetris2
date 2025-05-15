@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import TypedShell from '../app/TypedShell';
 import GamePanel from '../app/GamePanel';
 
 const Container = styled.div`

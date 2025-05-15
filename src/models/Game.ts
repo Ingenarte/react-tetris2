@@ -79,7 +79,7 @@ export const update = (game: Game, action: Action): Game => {
 
       // si hubiera una limpieza diferida, la aplicamos primero
       if (game.pendingClear) {
-        const [newMatrix, _idx, linesCleared] = clearFullLines(game.matrix);
+        const [newMatrix, , linesCleared] = clearFullLines(game.matrix);
         return commitPiece(
           { ...game, matrix: newMatrix },
           newMatrix,
@@ -101,7 +101,7 @@ export const update = (game: Game, action: Action): Game => {
       if (game.state !== 'PLAYING') return game;
 
       if (game.pendingClear) {
-        const [newMatrix, _idx, linesCleared] = clearFullLines(game.matrix);
+        const [newMatrix, , linesCleared] = clearFullLines(game.matrix);
         return commitPiece(
           { ...game, matrix: newMatrix },
           newMatrix,

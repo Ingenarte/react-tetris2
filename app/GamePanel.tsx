@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Tetris from '../src/components/Tetris';
+import { useThemeAudio } from '../src/hooks/useThemeAudio';
+import { ThemeAudioButton } from '../src/components/ThemeAudioButton';
 
 // ——————————————————————————————————————————————
 //  Generic layout containers
@@ -153,98 +155,133 @@ const Divider = styled.hr`
   margin: 4px 0;
 `;
 
-// Digits helper
-const Digits = ({ children, count = 4 }) => {
+// ─────────────────────────────────────────────────────
+//  Digits helper
+// ─────────────────────────────────────────────────────
+const Digits: React.FC<{ children: number; count?: number }> = ({
+  children,
+  count = 4
+}) => {
   let txt = children.toString();
   while (txt.length < count) txt = `0${txt}`;
   return <Digit>{txt}</Digit>;
 };
 
-// Main component
-const GamePanel = () => (
-  <Container>
-    <Tetris>
-      {({
-        Gameboard,
-        HeldPiece,
-        PieceQueue,
-        points,
-        linesCleared,
-        state,
-        controller,
-        level
-      }) => (
-        <>
-          <FlexWrapper style={{ opacity: state === 'PLAYING' ? 1 : 0.5 }}>
-            <SidebarLeft>
-              <Score>
-                <StatRow>
-                  <Label>Credits</Label>
-                </StatRow>
-                <StatRow>
-                  <Digits>8</Digits>
-                </StatRow>
-                <Divider />
-                <Divider />
+// ─────────────────────────────────────────────────────
+//  Main component
+// ─────────────────────────────────────────────────────
+const GamePanel: React.FC = () => {
+  /** 🎵  Hook de audio   */
+  const { isPlaying, isMuted, togglePlay, toggleMute } = useThemeAudio();
 
-                <StatRow>
-                  <Label>Points</Label>
-                </StatRow>
-                <StatRow>
-                  <Digits>{points}</Digits>
-                </StatRow>
-                <Divider />
+  /* runs when the user presses the very first “Play” button */
+  const handleStart = (resume: () => void) => () => {
+    if (!isPlaying) togglePlay(); // start music once
+    if (isMuted) toggleMute(); // ensure it is audible
+    resume(); // resume the game
+  };
 
-                <StatRow>
-                  <Label>Lines</Label>
-                </StatRow>
-                <StatRow>
-                  <Digits>{linesCleared}</Digits>
-                </StatRow>
-                <Divider />
+  return (
+    <Container>
+      <ThemeAudioButton />
+      {/* Juego */}
+      <Tetris>
+        {({
+          Gameboard,
+          HeldPiece,
+          PieceQueue,
+          points,
+          linesCleared,
+          state,
+          controller,
+          level
+        }) => (
+          <>
+            {/* ---------- Layout principal ---------- */}
+            <FlexWrapper style={{ opacity: state === 'PLAYING' ? 1 : 0.5 }}>
+              {/* Columna izquierda (score + held) */}
+              <SidebarLeft>
+                <Score>
+                  <StatRow>
+                    <Label>Credits</Label>
+                  </StatRow>
+                  <StatRow>
+                    <Digits>8</Digits>
+                  </StatRow>
+                  <Divider />
 
-                <StatRow>
-                  <Label>Level</Label>
-                </StatRow>
-                <StatRow>
-                  <Digits>{level}</Digits>
-                </StatRow>
-              </Score>
+                  <StatRow>
+                    <Label>Points</Label>
+                  </StatRow>
+                  <StatRow>
+                    <Digits>{points}</Digits>
+                  </StatRow>
+                  <Divider />
 
-              <HeldPiece />
-            </SidebarLeft>
+                  <StatRow>
+                    <Label>Lines</Label>
+                  </StatRow>
+                  <StatRow>
+                    <Digits>{linesCleared}</Digits>
+                  </StatRow>
+                  <Divider />
 
-            <GameboardWrapper>
-              <Gameboard />
-            </GameboardWrapper>
+                  <StatRow>
+                    <Label>Level</Label>
+                  </StatRow>
+                  <StatRow>
+                    <Digits>{level}</Digits>
+                  </StatRow>
+                </Score>
 
-            <Sidebar>
-              <PieceQueue />
-            </Sidebar>
-          </FlexWrapper>
+                <HeldPiece />
+              </SidebarLeft>
 
-          {state === 'PAUSED' && points === 0 && linesCleared === 0 && (
-            <Popup>
-              <Alert>Start Game</Alert>
-              <Button onClick={controller.resume}>Play</Button>
-            </Popup>
-          )}
-          {state === 'PAUSED' && (points > 0 || linesCleared > 0) && (
-            <Popup>
-              <Alert>Paused</Alert>
-              <Button onClick={controller.resume}>Resume</Button>
-            </Popup>
-          )}
-          {state === 'LOST' && (
-            <Popup>
-              <Alert>Game Over</Alert>
-              <Button onClick={controller.restart}>Start</Button>
-            </Popup>
-          )}
-        </>
-      )}
-    </Tetris>
-  </Container>
-);
+              {/* Tablero centrado */}
+              <GameboardWrapper>
+                <Gameboard />
+              </GameboardWrapper>
+
+              {/* Cola de piezas */}
+              <Sidebar>
+                <PieceQueue />
+              </Sidebar>
+            </FlexWrapper>
+
+            {/* ---------- Pop-ups ---------- */}
+            {state === 'PAUSED' && points === 0 && linesCleared === 0 && (
+              <Popup>
+                <Alert>Start Game</Alert>
+                <Button onClick={handleStart(controller.resume)}>Play</Button>
+              </Popup>
+            )}
+
+            {state === 'PAUSED' && (points > 0 || linesCleared > 0) && (
+              <Popup>
+                <Alert>Paused</Alert>
+                <Button onClick={controller.resume}>Resume</Button>
+              </Popup>
+            )}
+
+            {state === 'LOST' && (
+              <Popup>
+                <Alert>Game Over</Alert>
+                <Button
+                  onClick={() => {
+                    controller.restart();
+                    if (!isPlaying) togglePlay();
+                    if (isMuted) toggleMute();
+                  }}
+                >
+                  Start
+                </Button>
+              </Popup>
+            )}
+          </>
+        )}
+      </Tetris>
+    </Container>
+  );
+};
 
 export default GamePanel;

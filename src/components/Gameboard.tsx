@@ -14,7 +14,7 @@ export default function GameboardView(): JSX.Element {
       className="game-board"
       style={{
         display: 'grid',
-        gridTemplateColumns: `repeat(${matrix[0].length}, var(--block-size))`,
+        gridTemplateColumns: `repeat(${matrix[0]!.length}, var(--block-size))`, // ! because matrix is fixed-size
         gridTemplateRows: `repeat(${matrix.length}, var(--block-size))`
       }}
     >
