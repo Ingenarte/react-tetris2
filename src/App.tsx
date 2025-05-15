@@ -14,16 +14,16 @@ const Container = styled.div`
   flex-direction: column;
   background-color: rgba(18, 13, 31, 0.95);
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background: red;
-    pointer-events: none;
-  }
+  // &::before {
+  //   content: '';
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   height: 2px;
+  //   width: 100%;
+  //   background: red;
+  //   pointer-events: none;
+  // }
 `;
 
 const VerticallyCenterChildren = styled.div`

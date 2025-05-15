@@ -175,7 +175,7 @@ export const init = (): Game => {
   const queue = PieceQueue.create(5);
   const next = PieceQueue.getNext(queue);
   return {
-    state: 'PLAYING',
+    state: 'PAUSED',
     points: 0,
     lines: 0,
     matrix: buildMatrix(),
