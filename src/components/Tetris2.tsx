@@ -121,6 +121,33 @@ const Popup = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.1);
   max-width: 90%;
 `;
+const PopupStart = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(63, 129, 28, 0.5);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 90%;
+`;
+
+const PopupGameOver = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(176, 32, 32, 0.69);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 16px rgba(176, 32, 32, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 90%;
+`;
 
 const Alert = styled.h2`
   margin: 0;
@@ -198,6 +225,7 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
   ) => {
     const { isMuted, isPlaying, toggleMute, togglePlay } = useThemeAudio();
     const resumeRef = useRef<() => void>();
+    const hasStartedRef = useRef(false);
 
     useImperativeHandle(ref, () => ({ start: () => resumeRef.current?.() }));
 
@@ -218,6 +246,12 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
                 level,
                 credits
               }) => {
+                const handleStart = () => {
+                  if (!isPlaying && soundEnabled) togglePlay();
+                  if (isMuted && soundEnabled) toggleMute();
+                  controller.resume();
+                  hasStartedRef.current = true;
+                };
                 React.useEffect(() => {
                   onScoreChange?.(points);
                 }, [points]);
@@ -227,12 +261,6 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
                 React.useEffect(() => {
                   if (state === 'LOST') onGameOver?.();
                 }, [state]);
-
-                const handleStart = () => {
-                  if (!isPlaying && soundEnabled) togglePlay();
-                  if (isMuted && soundEnabled) toggleMute();
-                  controller.resume();
-                };
 
                 resumeRef.current = handleStart;
 
@@ -283,36 +311,32 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
 
                     {showModals &&
                       state === 'PAUSED' &&
-                      points === 0 &&
-                      linesCleared === 0 && (
-                        <Popup>
-                          <Alert>Start Game</Alert>
-                          <Button onClick={handleStart}>Play</Button>
-                        </Popup>
-                      )}
-
-                    {showModals &&
-                      state === 'PAUSED' &&
-                      (points > 0 || linesCleared > 0) && (
+                      (hasStartedRef.current ? (
                         <Popup>
                           <Alert>Paused</Alert>
                           <Button onClick={controller.resume}>Resume</Button>
                         </Popup>
-                      )}
+                      ) : (
+                        <PopupStart>
+                          <Alert>Start Game</Alert>
+                          <Button onClick={handleStart}>Play</Button>
+                        </PopupStart>
+                      ))}
 
                     {showModals && state === 'LOST' && (
-                      <Popup>
+                      <PopupGameOver>
                         <Alert>Game Over</Alert>
                         <Button
                           onClick={() => {
                             controller.restart();
+                            hasStartedRef.current = false;
                             if (!isPlaying && soundEnabled) togglePlay();
                             if (isMuted && soundEnabled) toggleMute();
                           }}
                         >
                           Restart
                         </Button>
-                      </Popup>
+                      </PopupGameOver>
                     )}
                   </>
                 );

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Tetris from '../src/components/Tetris';
-import { useThemeAudio } from '../src/hooks/useThemeAudio';
-import { ThemeAudioButton } from '../src/components/ThemeAudioButton';
+import { useThemeAudio } from '../hooks/useThemeAudio';
+import { ThemeAudioButton } from '../components/ThemeAudioButton';
+import Tetris from '../components/TetrisEngine';
 
 // ——————————————————————————————————————————————
 //  Generic layout containers
@@ -102,20 +102,6 @@ const SidebarLeft = styled.div`
 // ——————————————————————————————————————————————
 //  Popup (Start, Pause, Game-over)
 // ——————————————————————————————————————————————
-
-const Popup = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(27, 19, 44, 0.95);
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  max-width: 90%;
-`;
 
 const Alert = styled.h2`
   margin: 0;
@@ -248,36 +234,7 @@ const GamePanel: React.FC = () => {
                 <PieceQueue />
               </Sidebar>
             </FlexWrapper>
-
-            {/* ---------- Pop-ups ---------- */}
-            {state === 'PAUSED' && points === 0 && linesCleared === 0 && (
-              <Popup>
-                <Alert>Start Game</Alert>
-                <Button onClick={handleStart(controller.resume)}>Play</Button>
-              </Popup>
-            )}
-
-            {state === 'PAUSED' && (points > 0 || linesCleared > 0) && (
-              <Popup>
-                <Alert>Paused</Alert>
-                <Button onClick={controller.resume}>Resume</Button>
-              </Popup>
-            )}
-
-            {state === 'LOST' && (
-              <Popup>
-                <Alert>Game Over</Alert>
-                <Button
-                  onClick={() => {
-                    controller.restart();
-                    if (!isPlaying) togglePlay();
-                    if (isMuted) toggleMute();
-                  }}
-                >
-                  ReStart
-                </Button>
-              </Popup>
-            )}
+            {/*  */}
           </>
         )}
       </Tetris>
