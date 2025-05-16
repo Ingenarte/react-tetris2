@@ -1,10 +1,13 @@
 import React from 'react';
-import Gameboard from './Gameboard';
-import * as Game from '../models/Game';
+import * as Game from '../../models/Game';
+import { Context } from '../../context';
+import {
+  KeyboardMap,
+  useKeyboardControls
+} from '../../hooks/useKeyboardControls';
 import HeldPiece from './HeldPiece';
+import Gameboard from './Gameboard';
 import PieceQueue from './PieceQueue';
-import { Context } from '../context';
-import { KeyboardMap, useKeyboardControls } from '../hooks/useKeyboardControls';
 
 export type RenderFn = (params: {
   HeldPiece: React.ComponentType;

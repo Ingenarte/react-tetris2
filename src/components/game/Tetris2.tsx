@@ -1,7 +1,7 @@
 import React, { useRef, useImperativeHandle, forwardRef } from 'react';
 import styled from 'styled-components';
-import { useThemeAudio } from '../hooks/useThemeAudio';
-import { ThemeAudioButton } from './ThemeAudioButton';
+import { useThemeAudio } from '../../hooks/audio/useThemeAudio';
+import { ThemeAudioButton } from '../../hooks/ThemeAudioButton';
 import Tetris from './TetrisEngine';
 
 const OuterContainer = styled.div`

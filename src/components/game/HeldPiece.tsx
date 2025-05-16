@@ -1,6 +1,6 @@
 import React from 'react';
+import { Context } from '../../context';
 import PieceView from './PieceView';
-import { Context } from '../context';
 
 export default function HeldPiece(): JSX.Element {
   const { heldPiece } = React.useContext(Context);

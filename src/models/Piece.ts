@@ -231,3 +231,8 @@ export const getClassName = (piece: Piece | 'ghost'): string => {
     }
   }
 };
+
+export type ActivePiece = {
+  piece: Piece;
+  rotation: Rotation;
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getBlocks, getClassName, Piece } from '../models/Piece';
+import { getBlocks, getClassName, Piece } from '../../models/Piece';
 import './styles.css';
 
 type Props = {
@@ -19,7 +19,6 @@ const PieceView: React.FC<Props> = ({ piece }): JSX.Element => {
   const blocks = fromPiece ?? defaultBlock;
 
   const className = piece ? getClassName(piece) : '';
-
 
   return (
     <div

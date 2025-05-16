@@ -1,8 +1,9 @@
 import React from 'react';
-import { viewMatrix } from '../models/Game';
-import { getClassName } from '../models/Piece';
-import { Context } from '../context';
+
 import './styles.css';
+import { Context } from '../../context';
+import { viewMatrix } from '../../models/Game';
+import { getClassName } from '../../models/Piece';
 
 export default function GameboardView(): JSX.Element {
   const game = React.useContext(Context);

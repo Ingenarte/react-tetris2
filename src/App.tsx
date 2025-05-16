@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Tetris2, Tetris2Handle } from './components/Tetris2';
+import { Tetris2, Tetris2Handle } from './components/game/Tetris2';
 
 const App = (): React.JSX.Element => {
   const tetrisRef = useRef<Tetris2Handle>(null);
@@ -16,7 +16,7 @@ const App = (): React.JSX.Element => {
         credits={5555}
         manageCredits={false}
         showModals={false}
-        soundEnabled={false}
+        soundEnabled={true}
         onGameOver={() => {
           console.log('Game Over');
         }}

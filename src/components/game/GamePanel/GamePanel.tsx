@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Tetris from '../components/TetrisEngine';
+import Tetris from '../TetrisEngine';
 
 // ——————————————————————————————————————————————
 //  Generic layout containers

@@ -1,6 +1,7 @@
 import React from 'react';
+import { Context } from '../../context';
 import PieceView from './PieceView';
-import { Context } from '../context';
+
 
 export default function PieceQueue(): JSX.Element {
   const { queue } = React.useContext(Context);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useThemeAudio } from '../hooks/useThemeAudio';
+import { useThemeAudio } from './audio/useThemeAudio';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 
