@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Tetris from '../src/components/Tetris';
-import { useThemeAudio } from '../src/hooks/useThemeAudio';
-import { ThemeAudioButton } from '../src/components/ThemeAudioButton';
+import Tetris from '../components/Tetris';
+import { useThemeAudio } from '../hooks/useThemeAudio';
+import { ThemeAudioButton } from '../components/ThemeAudioButton';
 
 // ——————————————————————————————————————————————
 //  Generic layout containers
@@ -194,7 +194,8 @@ const GamePanel: React.FC = () => {
           linesCleared,
           state,
           controller,
-          level
+          level,
+          credits
         }) => (
           <>
             {/* ---------- Layout principal ---------- */}
@@ -206,7 +207,7 @@ const GamePanel: React.FC = () => {
                     <Label>Credits</Label>
                   </StatRow>
                   <StatRow>
-                    <Digits>8</Digits>
+                    <Digits>{credits}</Digits>
                   </StatRow>
                   <Divider />
 
@@ -273,7 +274,7 @@ const GamePanel: React.FC = () => {
                     if (isMuted) toggleMute();
                   }}
                 >
-                  Start
+                  ReStart
                 </Button>
               </Popup>
             )}

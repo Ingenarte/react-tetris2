@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GamePanel from '../app/GamePanel';
+import GamePanel from './app/GamePanel';
 
 const Container = styled.div`
   box-sizing: border-box;

@@ -15,5 +15,5 @@
     "moduleResolution": "Node",
     "declaration": true
   },
-  "exclude": ["./test", "./app"]
+  "exclude": ["./test", "src/app"]
 }

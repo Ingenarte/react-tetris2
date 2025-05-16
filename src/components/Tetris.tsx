@@ -15,6 +15,7 @@ export type RenderFn = (params: {
   level: number;
   state: Game.State;
   controller: Controller;
+  credits: number;
 }) => React.ReactElement;
 
 export type Controller = {
@@ -33,6 +34,8 @@ export type Controller = {
 type Props = {
   keyboardControls?: KeyboardMap;
   children: RenderFn;
+  credits?: number;
+  manageCredits?: boolean;
 };
 
 const defaultKeyboardMap: KeyboardMap = {
@@ -54,9 +57,15 @@ const tickSeconds = (level: number) =>
 
 export default function Tetris(props: Props): JSX.Element {
   const [game, dispatch] = React.useReducer(Game.update, Game.init());
+
   const keyboardMap = props.keyboardControls ?? defaultKeyboardMap;
   useKeyboardControls(keyboardMap, dispatch);
   const level = Game.getLevel(game);
+  const [internalCredits, setInternalCredits] = React.useState(
+    props.credits ?? 9999
+  );
+  const credits =
+    props.manageCredits === false ? props.credits ?? 9999 : internalCredits;
 
   React.useEffect(() => {
     let interval: number | undefined;
@@ -77,7 +86,19 @@ export default function Tetris(props: Props): JSX.Element {
   const controller = React.useMemo(
     () => ({
       pause: () => dispatch('PAUSE'),
-      resume: () => dispatch('RESUME'),
+      resume: () => {
+        if (props.manageCredits !== false) {
+          setInternalCredits((prev) => {
+            if (prev > 0) {
+              dispatch('RESUME');
+              return prev - 1;
+            }
+            return 0;
+          });
+        } else {
+          dispatch('RESUME');
+        }
+      },
       hold: () => dispatch('HOLD'),
       hardDrop: () => dispatch('HARD_DROP'),
       moveDown: () => dispatch('MOVE_DOWN'),
@@ -87,7 +108,7 @@ export default function Tetris(props: Props): JSX.Element {
       flipCounterclockwise: () => dispatch('FLIP_COUNTERCLOCKWISE'),
       restart: () => dispatch('RESTART')
     }),
-    [dispatch]
+    [dispatch, props.manageCredits, setInternalCredits]
   );
 
   return (
@@ -100,7 +121,8 @@ export default function Tetris(props: Props): JSX.Element {
         linesCleared: game.lines,
         state: game.state,
         level,
-        controller
+        controller,
+        credits
       })}
     </Context.Provider>
   );
