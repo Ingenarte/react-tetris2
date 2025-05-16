@@ -11,7 +11,7 @@ export type ThemeAudioControls = {
 /* ─────────── shared singleton audio ─────────── */
 const audio = new Audio('/audio/tetris.mp3');
 audio.loop = true;
-audio.volume = 0.65;
+audio.volume = 0.8;
 
 let playing = false;
 let muted = false;

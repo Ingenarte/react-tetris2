@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Tetris from '../components/Tetris';
-import { useThemeAudio } from '../hooks/useThemeAudio';
-import { ThemeAudioButton } from '../components/ThemeAudioButton';
+import Tetris from '../src/components/Tetris';
+import { useThemeAudio } from '../src/hooks/useThemeAudio';
+import { ThemeAudioButton } from '../src/components/ThemeAudioButton';
 
 // ——————————————————————————————————————————————
 //  Generic layout containers
