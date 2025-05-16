@@ -233,7 +233,7 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
       <OuterContainer>
         <VerticallyCenterChildren>
           <Container>
-            <ThemeAudioButton />
+            {soundEnabled && <ThemeAudioButton />}
             <Tetris credits={credits} manageCredits={manageCredits}>
               {({
                 Gameboard,

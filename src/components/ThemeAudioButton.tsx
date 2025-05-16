@@ -1,4 +1,3 @@
-//  src/components/ThemeAudioButton.tsx
 import React from 'react';
 import { useThemeAudio } from '../hooks/useThemeAudio';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
@@ -27,26 +26,37 @@ const Spacer = styled.div`
   pointer-events: none; /* reserve room for a hidden play btn */
 `;
 
-const MuteBtn = styled.button`
+const MuteBtn = styled.button<{ disabled?: boolean }>`
   ${IconBase};
   background: #28203e;
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #f0f0f0;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
   transition: background 0.2s;
 
   &:hover {
-    background: #3a2c5b;
+    background: ${({ disabled }) => (disabled ? '#28203e' : '#3a2c5b')};
   }
 `;
 
-export const ThemeAudioButton: React.FC = () => {
+interface Props {
+  disabled?: boolean;
+}
+
+export const ThemeAudioButton: React.FC<Props> = ({ disabled }) => {
   const { isMuted, toggleMute } = useThemeAudio();
 
   return (
     <Wrapper>
-      <Spacer /> {/* invisible play/pause placeholder */}
-      <MuteBtn onClick={toggleMute} title={isMuted ? 'Un-mute' : 'Mute'}>
+      <Spacer />
+      <MuteBtn
+        onClick={() => {
+          if (!disabled) toggleMute();
+        }}
+        disabled={disabled}
+        title={isMuted ? 'Un-mute' : 'Mute'}
+      >
         {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
       </MuteBtn>
     </Wrapper>

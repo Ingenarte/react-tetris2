@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useThemeAudio } from '../hooks/useThemeAudio';
-import { ThemeAudioButton } from '../components/ThemeAudioButton';
 import Tetris from '../components/TetrisEngine';
 
 // ——————————————————————————————————————————————
@@ -99,40 +97,6 @@ const SidebarLeft = styled.div`
   }
 `;
 
-// ——————————————————————————————————————————————
-//  Popup (Start, Pause, Game-over)
-// ——————————————————————————————————————————————
-
-const Alert = styled.h2`
-  margin: 0;
-  font-size: clamp(24px, 4vw, 36px);
-  font-weight: 400;
-  color: #f0f0f0;
-`;
-
-const Button = styled.button`
-  margin-top: 24px;
-  padding: 0.5rem 1.2rem;
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(18px, 3vw, 24px);
-  border-radius: 6px;
-  background: #28203e;
-  color: #f0f0f0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    transform 0.1s ease;
-
-  &:hover {
-    background: #3a2c5b;
-    transform: scale(1.02);
-  }
-  &:active {
-    transform: scale(0.96);
-  }
-`;
-
 const Divider = styled.hr`
   width: 100%;
   border: none;
@@ -157,19 +121,8 @@ const Digits: React.FC<{ children: number; count?: number }> = ({
 //  Main component
 // ─────────────────────────────────────────────────────
 const GamePanel: React.FC = () => {
-  /** 🎵  Hook de audio   */
-  const { isPlaying, isMuted, togglePlay, toggleMute } = useThemeAudio();
-
-  /* runs when the user presses the very first “Play” button */
-  const handleStart = (resume: () => void) => () => {
-    if (!isPlaying) togglePlay(); // start music once
-    if (isMuted) toggleMute(); // ensure it is audible
-    resume(); // resume the game
-  };
-
   return (
     <Container>
-      <ThemeAudioButton />
       {/* Juego */}
       <Tetris>
         {({
@@ -179,7 +132,6 @@ const GamePanel: React.FC = () => {
           points,
           linesCleared,
           state,
-          controller,
           level,
           credits
         }) => (

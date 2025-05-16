@@ -14,8 +14,8 @@ const App = (): React.JSX.Element => {
       <Tetris2
         ref={tetrisRef}
         credits={5555}
-        manageCredits={true}
-        showModals={true}
+        manageCredits={false}
+        showModals={false}
         soundEnabled={false}
         onGameOver={() => {
           console.log('Game Over');
