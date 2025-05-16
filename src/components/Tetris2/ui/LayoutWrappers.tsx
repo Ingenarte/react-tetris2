@@ -65,3 +65,18 @@ export const SidebarLeft = styled.div`
     gap: 1rem;
   }
 `;
+
+export const LabeledPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(14px, 2vw, 20px);
+    font-weight: 600;
+    color: rgba(102, 107, 198, 0.62);
+    margin: 0;
+  }
+`;
