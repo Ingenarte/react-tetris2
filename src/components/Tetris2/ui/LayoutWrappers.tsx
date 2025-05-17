@@ -34,6 +34,7 @@ export const FlexWrapper = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 2rem;
+  transform: translateX(-5%);
 `;
 
 export const Column = styled.div`
@@ -78,5 +79,16 @@ export const LabeledPanel = styled.div`
     font-weight: 600;
     color: rgba(102, 107, 198, 0.62);
     margin: 0;
+  }
+`;
+
+export const ControlsLegend = styled.div`
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;

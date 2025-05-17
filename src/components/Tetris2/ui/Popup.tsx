@@ -20,6 +20,6 @@ export const PopupStart = styled(Popup)`
 `;
 
 export const PopupGameOver = styled(Popup)`
-  background: rgba(176, 32, 32, 0.69);
+  background: rgba(176, 32, 32, 0.9);
   box-shadow: 0 0 16px rgba(176, 32, 32, 0.5);
 `;
