@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Tetris2, Tetris2Handle } from './components/game/Tetris2';
+import { Tetris2, Tetris2Handle } from './components/Tetris2/Tetris2';
 
 const App = (): React.JSX.Element => {
   const tetrisRef = useRef<Tetris2Handle>(null);
@@ -10,13 +10,14 @@ const App = (): React.JSX.Element => {
 
   return (
     <>
-      <button onClick={handleStart}>Iniciar juego</button>
+      {/* <button onClick={handleStart}>Iniciar juego</button> */}
       <Tetris2
         ref={tetrisRef}
         credits={5555}
-        manageCredits={false}
-        showModals={false}
+        manageCredits={true}
+        showModals={true}
         soundEnabled={true}
+        showControlsLegend={true}
         onGameOver={() => {
           console.log('Game Over');
         }}

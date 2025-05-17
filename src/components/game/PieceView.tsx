@@ -14,7 +14,7 @@ const defaultBlock = [
 ] as const;
 
 const PieceView: React.FC<Props> = ({ piece }): JSX.Element => {
-  const fromPiece = piece ? getBlocks(piece) : undefined;
+  const fromPiece = piece ? getBlocks(piece)[0] : undefined;
   const blocks = fromPiece ?? defaultBlock;
 
   const className = piece ? getClassName(piece) : '';

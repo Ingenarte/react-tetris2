@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tetris2 } from './components/game/Tetris2';
+import { Tetris2 } from './components/Tetris2/Tetris2';
 
 const App2 = (): React.JSX.Element => {
   return <Tetris2 />;
