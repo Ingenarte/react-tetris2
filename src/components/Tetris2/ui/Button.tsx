@@ -1,7 +1,9 @@
 // ui/Button.tsx
 import styled from 'styled-components';
 
-const Button = styled.button`
+const Button = styled.button.attrs({
+  type: 'button'
+})`
   margin-top: 24px;
   padding: 0.5rem 1.2rem;
   font-family: 'Montserrat', sans-serif;
@@ -19,9 +21,11 @@ const Button = styled.button`
     background: #3a2c5b;
     transform: scale(1.02);
   }
+
   &:active {
     transform: scale(0.96);
   }
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(102, 107, 198, 0.3);

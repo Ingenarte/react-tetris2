@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["ES2019", "dom"],
-    "typeRoots": ["./src/types"],
+    "types": ["styled-components"],
     "strict": true,
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
@@ -15,5 +15,6 @@
     "moduleResolution": "Node",
     "declaration": true
   },
-  "exclude": ["./test", "src/app"]
+  "exclude": ["./test", "src/app", "vite.config.ts"],
+  "include": ["src", "src/theme.ts"]
 }

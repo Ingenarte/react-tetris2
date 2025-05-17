@@ -26,20 +26,37 @@ const Spacer = styled.div`
   pointer-events: none; /* reserve room for a hidden play btn */
 `;
 
-const MuteBtn = styled.button<{ disabled?: boolean }>`
-  ${IconBase};
+const MuteBtn = styled.button.attrs({
+  type: 'button'
+})`
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  font-size: 18px;
   background: #28203e;
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #f0f0f0;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
+  cursor: pointer;
   transition: background 0.2s;
 
   &:hover {
-    background: ${({ disabled }) => (disabled ? '#28203e' : '#3a2c5b')};
+    background: #3a2c5b;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+    background: #28203e;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 107, 198, 0.3);
+    border-color: rgba(16, 16, 31, 0.3);
   }
 `;
-
 interface Props {
   disabled?: boolean;
 }
