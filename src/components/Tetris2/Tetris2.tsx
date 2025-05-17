@@ -21,6 +21,7 @@ import ControlsPanel from './ui/ControlsPanel';
 
 export type Tetris2Handle = {
   start: () => void;
+  restart: () => void;
 };
 
 interface Props {
@@ -52,8 +53,6 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
     const resumeRef = useRef<() => void>();
     const hasStartedRef = useRef(false);
 
-    useImperativeHandle(ref, () => ({ start: () => resumeRef.current?.() }));
-
     return (
       <OuterContainer>
         <VerticallyCenterChildren>
@@ -77,6 +76,14 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
                   controller.resume();
                   hasStartedRef.current = true;
                 };
+
+                resumeRef.current = handleStart;
+
+                useImperativeHandle(ref, () => ({
+                  start: () => resumeRef.current?.(),
+                  restart: () => controller.restart()
+                }));
+
                 React.useEffect(() => {
                   onScoreChange?.(points);
                 }, [points]);
@@ -94,12 +101,16 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
                     if (e.key === 'Enter') {
                       if (state === 'PAUSED' && hasStartedRef.current) {
                         controller.resume();
-                      } else if (state === 'LOST') {
+                      } else if (state === 'LOST' && showModals) {
                         controller.restart();
                         hasStartedRef.current = false;
                         if (!isPlaying && soundEnabled) togglePlay();
                         if (isMuted && soundEnabled) toggleMute();
-                      } else if (!hasStartedRef.current && state === 'PAUSED') {
+                      } else if (
+                        !hasStartedRef.current &&
+                        state === 'PAUSED' &&
+                        showModals
+                      ) {
                         handleStart();
                       }
                     }
