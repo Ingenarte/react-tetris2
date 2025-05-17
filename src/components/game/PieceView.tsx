@@ -1,9 +1,9 @@
 import React from 'react';
-import { getBlocks, getClassName, Piece } from '../../models/Piece';
+import { ActivePiece, getBlocks, getClassName } from '../../models/Piece';
 import './styles.css';
 
 type Props = {
-  piece?: Piece;
+  piece?: ActivePiece;
 };
 
 const defaultBlock = [
@@ -14,10 +14,11 @@ const defaultBlock = [
 ] as const;
 
 const PieceView: React.FC<Props> = ({ piece }): JSX.Element => {
-  const fromPiece = piece ? getBlocks(piece)[0] : undefined;
+  const rotation = piece?.rotation ?? 0;
+  const fromPiece = piece ? getBlocks(piece.piece)[rotation] : undefined;
   const blocks = fromPiece ?? defaultBlock;
 
-  const className = piece ? getClassName(piece) : '';
+  const className = piece ? getClassName(piece.piece) : '';
 
   return (
     <div
