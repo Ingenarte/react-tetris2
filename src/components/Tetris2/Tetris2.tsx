@@ -18,6 +18,7 @@ import { Popup, PopupGameOver, PopupStart } from './ui/Popup';
 import Alert from './ui/Alert';
 import Button from './ui/Button';
 import ControlsPanel from './ui/ControlsPanel';
+import { ErrorBoundary } from '../ErrorBoundary';
 
 export type Tetris2Handle = {
   start: () => void;
@@ -58,158 +59,160 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
         <VerticallyCenterChildren>
           <Container>
             {soundEnabled && <ThemeAudioButton />}
-            <Tetris credits={credits} manageCredits={manageCredits}>
-              {({
-                Gameboard,
-                HeldPiece,
-                PieceQueue,
-                controller,
-                points,
-                linesCleared,
-                state,
-                level,
-                credits
-              }) => {
-                const handleStart = () => {
-                  if (!isPlaying && soundEnabled) togglePlay();
-                  if (isMuted && soundEnabled) toggleMute();
-                  controller.resume();
-                  hasStartedRef.current = true;
-                };
-
-                resumeRef.current = handleStart;
-
-                useImperativeHandle(ref, () => ({
-                  start: () => resumeRef.current?.(),
-                  restart: () => controller.restart()
-                }));
-
-                React.useEffect(() => {
-                  onScoreChange?.(points);
-                }, [points]);
-                React.useEffect(() => {
-                  onLevelChange?.(level);
-                }, [level]);
-                React.useEffect(() => {
-                  if (state === 'LOST') onGameOver?.();
-                }, [state]);
-
-                resumeRef.current = handleStart;
-
-                React.useEffect(() => {
-                  const handleKeyDown = (e: KeyboardEvent) => {
-                    if (e.key === 'Enter') {
-                      if (state === 'PAUSED' && hasStartedRef.current) {
-                        controller.resume();
-                      } else if (state === 'LOST' && showModals) {
-                        controller.restart();
-                        hasStartedRef.current = false;
-                        if (!isPlaying && soundEnabled) togglePlay();
-                        if (isMuted && soundEnabled) toggleMute();
-                      } else if (
-                        !hasStartedRef.current &&
-                        state === 'PAUSED' &&
-                        showModals
-                      ) {
-                        handleStart();
-                      }
-                    }
-
-                    if (e.key.toLowerCase() === 'm') {
-                      toggleMute();
-                    }
+            <ErrorBoundary>
+              <Tetris credits={credits} manageCredits={manageCredits}>
+                {({
+                  Gameboard,
+                  HeldPiece,
+                  PieceQueue,
+                  controller,
+                  points,
+                  linesCleared,
+                  state,
+                  level,
+                  credits
+                }) => {
+                  const handleStart = () => {
+                    if (!isPlaying && soundEnabled) togglePlay();
+                    if (isMuted && soundEnabled) toggleMute();
+                    controller.resume();
+                    hasStartedRef.current = true;
                   };
 
-                  window.addEventListener('keydown', handleKeyDown);
-                  return () =>
-                    window.removeEventListener('keydown', handleKeyDown);
-                }, [state, controller, soundEnabled, isMuted, isPlaying]);
+                  resumeRef.current = handleStart;
 
-                return (
-                  <>
-                    <FlexWrapper
-                      style={{ opacity: state === 'PLAYING' ? 1 : 0.5 }}
-                    >
-                      <SidebarLeft>
-                        <ScorePanel
-                          credits={credits}
-                          points={points}
-                          linesCleared={linesCleared}
-                          level={level}
-                        />
-                        <LabeledPanel>
-                          <h1>HOLD</h1>
-                          <HeldPiece />
-                        </LabeledPanel>
-                      </SidebarLeft>
-                      <GameboardWrapper>
-                        <Gameboard />
-                      </GameboardWrapper>
-                      <Sidebar>
-                        <LabeledPanel>
-                          <h1>NEXT</h1>
-                          <PieceQueue />
-                        </LabeledPanel>
-                      </Sidebar>
-                    </FlexWrapper>
-                    {showControlsLegend && (
-                      <ControlsLegend>
-                        <ControlsPanel />
-                      </ControlsLegend>
-                    )}
+                  useImperativeHandle(ref, () => ({
+                    start: () => resumeRef.current?.(),
+                    restart: () => controller.restart()
+                  }));
 
-                    {showModals &&
-                      state === 'PAUSED' &&
-                      (hasStartedRef.current ? (
-                        <Popup>
-                          <Alert>Paused</Alert>
-                          <Button onClick={controller.resume}>Resume</Button>
-                        </Popup>
-                      ) : (
-                        <PopupStart>
-                          <Alert>Start Game</Alert>
-                          <Button onClick={handleStart}>Play</Button>
-                        </PopupStart>
-                      ))}
+                  React.useEffect(() => {
+                    onScoreChange?.(points);
+                  }, [points]);
+                  React.useEffect(() => {
+                    onLevelChange?.(level);
+                  }, [level]);
+                  React.useEffect(() => {
+                    if (state === 'LOST') onGameOver?.();
+                  }, [state]);
 
-                    {showModals && state === 'LOST' && (
-                      <PopupGameOver>
-                        <Alert>Game Over</Alert>
-                        <div
-                          style={{
-                            marginTop: '1rem',
-                            textAlign: 'left',
-                            fontSize: 'clamp(14px, 2vw, 26px)',
-                            color: '#ddd'
-                          }}
-                        >
-                          <p>
-                            <strong>Level:</strong> {level}
-                          </p>
-                          <p>
-                            <strong>Lines:</strong> {linesCleared}
-                          </p>
-                          <p>
-                            <strong>Points:</strong> {points}
-                          </p>
-                        </div>
+                  resumeRef.current = handleStart;
 
-                        <Button
-                          onClick={() => {
-                            controller.restart();
-                            hasStartedRef.current = false;
-                            if (!isPlaying && soundEnabled) togglePlay();
-                            if (isMuted && soundEnabled) toggleMute();
-                          }}
-                        >
-                          Restart
-                        </Button>
-                      </PopupGameOver>
-                    )}
-                  </>
-                );
-              }}
-            </Tetris>
+                  React.useEffect(() => {
+                    const handleKeyDown = (e: KeyboardEvent) => {
+                      if (e.key === 'Enter') {
+                        if (state === 'PAUSED' && hasStartedRef.current) {
+                          controller.resume();
+                        } else if (state === 'LOST' && showModals) {
+                          controller.restart();
+                          hasStartedRef.current = false;
+                          if (!isPlaying && soundEnabled) togglePlay();
+                          if (isMuted && soundEnabled) toggleMute();
+                        } else if (
+                          !hasStartedRef.current &&
+                          state === 'PAUSED' &&
+                          showModals
+                        ) {
+                          handleStart();
+                        }
+                      }
+
+                      if (e.key.toLowerCase() === 'm') {
+                        toggleMute();
+                      }
+                    };
+
+                    window.addEventListener('keydown', handleKeyDown);
+                    return () =>
+                      window.removeEventListener('keydown', handleKeyDown);
+                  }, [state, controller, soundEnabled, isMuted, isPlaying]);
+
+                  return (
+                    <>
+                      <FlexWrapper
+                        style={{ opacity: state === 'PLAYING' ? 1 : 0.5 }}
+                      >
+                        <SidebarLeft>
+                          <ScorePanel
+                            credits={credits}
+                            points={points}
+                            linesCleared={linesCleared}
+                            level={level}
+                          />
+                          <LabeledPanel>
+                            <h1>HOLD</h1>
+                            <HeldPiece />
+                          </LabeledPanel>
+                        </SidebarLeft>
+                        <GameboardWrapper>
+                          <Gameboard />
+                        </GameboardWrapper>
+                        <Sidebar>
+                          <LabeledPanel>
+                            <h1>NEXT</h1>
+                            <PieceQueue />
+                          </LabeledPanel>
+                        </Sidebar>
+                      </FlexWrapper>
+                      {showControlsLegend && (
+                        <ControlsLegend>
+                          <ControlsPanel />
+                        </ControlsLegend>
+                      )}
+
+                      {showModals &&
+                        state === 'PAUSED' &&
+                        (hasStartedRef.current ? (
+                          <Popup>
+                            <Alert>Paused</Alert>
+                            <Button onClick={controller.resume}>Resume</Button>
+                          </Popup>
+                        ) : (
+                          <PopupStart>
+                            <Alert>Start Game</Alert>
+                            <Button onClick={handleStart}>Play</Button>
+                          </PopupStart>
+                        ))}
+
+                      {showModals && state === 'LOST' && (
+                        <PopupGameOver>
+                          <Alert>Game Over</Alert>
+                          <div
+                            style={{
+                              marginTop: '1rem',
+                              textAlign: 'left',
+                              fontSize: 'clamp(14px, 2vw, 26px)',
+                              color: '#ddd'
+                            }}
+                          >
+                            <p>
+                              <strong>Level:</strong> {level}
+                            </p>
+                            <p>
+                              <strong>Lines:</strong> {linesCleared}
+                            </p>
+                            <p>
+                              <strong>Points:</strong> {points}
+                            </p>
+                          </div>
+
+                          <Button
+                            onClick={() => {
+                              controller.restart();
+                              hasStartedRef.current = false;
+                              if (!isPlaying && soundEnabled) togglePlay();
+                              if (isMuted && soundEnabled) toggleMute();
+                            }}
+                          >
+                            Restart
+                          </Button>
+                        </PopupGameOver>
+                      )}
+                    </>
+                  );
+                }}
+              </Tetris>
+            </ErrorBoundary>
           </Container>
         </VerticallyCenterChildren>
       </OuterContainer>
