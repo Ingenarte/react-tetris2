@@ -232,7 +232,7 @@ export const getClassName = (piece: Piece | 'ghost'): string => {
   }
 };
 
-export type ActivePiece = {
-  piece: Piece;
-  rotation: Rotation;
+export type ActivePiece = { piece: Piece; rotation: Rotation };
+export type PositionedPiece = ActivePiece & {
+  position: { x: number; y: number };
 };
