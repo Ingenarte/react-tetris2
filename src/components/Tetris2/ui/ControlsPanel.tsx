@@ -9,7 +9,7 @@ const Panel = styled.div`
   font-size: clamp(14px, 2vw, 18px);
   color: #f0f0f0;
   padding: 1rem;
-  background: rgba(40, 32, 62, 0.8);
+  background: rgba(40, 32, 62, 0.4);
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -36,7 +36,7 @@ const Row = styled.div`
 const Key = styled.span`
   font-family: 'Courier New', monospace;
   font-weight: bold;
-  color: #fff;
+  color: rgba(201, 205, 209, 0.85);
   min-width: 70px;
   text-align: left;
 `;

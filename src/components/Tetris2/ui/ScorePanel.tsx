@@ -11,7 +11,7 @@ const Score = styled.div`
   font-size: clamp(16px, 2vw, 24px);
   color: #f0f0f0;
   padding: 1rem;
-  background: rgba(40, 32, 62, 0.8);
+  background: rgba(40, 32, 62, 0.6);
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.08);

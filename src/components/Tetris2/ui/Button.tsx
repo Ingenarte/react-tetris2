@@ -22,6 +22,11 @@ const Button = styled.button`
   &:active {
     transform: scale(0.96);
   }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 107, 198, 0.3);
+    border-color: rgba(16, 16, 31, 0.3);
+  }
 `;
 
 export default Button;
