@@ -98,8 +98,7 @@ export const update = (game: Game, action: Action): Game => {
       return updated;
     }
     case 'TICK': {
-      if (game.state !== 'PLAYING') return game;
-
+      if (game.state !== 'PLAYING' && !game.pendingClear) return game;
       if (game.pendingClear) {
         const [newMatrix, , linesCleared] = clearFullLines(game.matrix);
         return commitPiece(

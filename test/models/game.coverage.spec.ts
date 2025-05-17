@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { init, update } from '../../src/models/Game';
+import { buildMatrix } from '../../src/models/Matrix';
 
 describe('Game model – state machine and helpers', () => {
   // …other tests stay unchanged …
@@ -16,5 +17,22 @@ describe('Game model – state machine and helpers', () => {
 
     // Matrix must differ from a fresh game
     expect(g.matrix).not.toBe(init().matrix);
+  });
+
+  it('clears pendingClear even if state is LOST', () => {
+    let g = init();
+    g = {
+      ...g,
+      state: 'LOST',
+      pendingClear: true,
+      matrix: buildMatrix()
+    };
+
+    // Simular una línea a limpiar
+    g.matrix[19] = Array(10).fill('I');
+
+    const next = update(g, 'TICK');
+    expect(next.pendingClear).toBe(false);
+    expect(next.matrix[19].every((c) => c === null)).toBe(true);
   });
 });

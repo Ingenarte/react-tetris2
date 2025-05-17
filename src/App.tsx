@@ -23,7 +23,7 @@ const App = (): React.JSX.Element => {
   const handleGameOver = () => {
     setIsGameOver(true);
     setHasStarted(false);
-    console.log('Game Over');
+    // console.log('Game Over');
   };
 
   const handleRestart = () => {

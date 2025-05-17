@@ -4,6 +4,7 @@
     "types": ["styled-components"],
     "strict": true,
     "noImplicitReturns": true,
+    "noImplicitAny": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
