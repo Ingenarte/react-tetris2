@@ -1,7 +1,7 @@
 import React, { useRef, useImperativeHandle, forwardRef } from 'react';
 import { useThemeAudio } from '../../hooks/audio/useThemeAudio';
 import { ThemeAudioButton } from '../../hooks/ThemeAudioButton';
-import Tetris from '../game/TetrisEngine';
+import Tetris from './TetrisEngine';
 import {
   Container,
   ControlsLegend,

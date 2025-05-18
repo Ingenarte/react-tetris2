@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GamePanel from './components/game/GamePanel/GamePanel';
+import GamePanel from './components/Tetris2/GamePanel/GamePanel';
 
 const Container = styled.div`
   box-sizing: border-box;
