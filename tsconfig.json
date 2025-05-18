@@ -1,21 +1,10 @@
+// tsconfig.json
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2019", "dom"],
-    "types": ["styled-components"],
-    "strict": true,
-    "noImplicitReturns": true,
-    "noImplicitAny": true,
-    "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "jsx": "react",
-    "allowSyntheticDefaultImports": true,
     "rootDir": "./src",
-    "outDir": "./lib",
-    "module": "ES2020",
-    "moduleResolution": "Node",
-    "declaration": true
-  },
-  "exclude": ["./test", "src/app", "vite.config.ts"],
-  "include": ["src", "src/theme.ts"]
+    "outDir": "./lib",               // if you ever want a dev build here
+    "declaration": false,            // dev mode doesn’t emit types
+    "declarationMap": false
+  }
 }

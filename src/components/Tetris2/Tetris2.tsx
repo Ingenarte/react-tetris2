@@ -221,3 +221,4 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
 );
 
 Tetris2.displayName = 'Tetris2';
+export default Tetris2;

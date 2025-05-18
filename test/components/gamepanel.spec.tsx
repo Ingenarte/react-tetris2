@@ -1,7 +1,7 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import GamePanel from '../../src/components/Tetris2/GamePanel/GamePanel';
+import GamePanel from '../../src/components/tetris2/GamePanel/GamePanel';
 
 /** ----------------------------------------------------------------
  *  Mock TetrisEngine *before* importing GamePanel
