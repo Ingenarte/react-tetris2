@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/components/game/PieceView.tsx</title>
+    <title>Code coverage report for src/components/Tetris2/Gameboard.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/components/game</a> PieceView.tsx</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/components/Tetris2</a> Gameboard.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
@@ -107,8 +107,7 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -116,21 +115,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -140,64 +129,72 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">80x</span>
+<span class="cline-any cline-yes">800x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">96x</span>
-<span class="cline-any cline-yes">384x</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-yes">768x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">384x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">800x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
-import { ActivePiece, getBlocks, getClassName } from '../../models/Piece';
+&nbsp;
 import './styles.css';
+import { Context } from '../../context';
+import { viewMatrix } from '../../models/Game';
+import { getClassName } from '../../models/Piece';
 &nbsp;
-type Props = {
-  piece?: ActivePiece;
-};
-&nbsp;
-const defaultBlock = [
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0]
-] as const;
-&nbsp;
-const PieceView: React.FC&lt;Props&gt; = ({ piece }): JSX.Element =&gt; {
-  const rotation = piece?.rotation ?? 0;
-  const fromPiece = piece ? getBlocks(piece.piece)[rotation] : undefined;
-  const blocks = fromPiece ?? defaultBlock;
-&nbsp;
-  const className = piece ? getClassName(piece.piece) : '';
+export default function GameboardView(): JSX.Element {
+  const game = React.useContext(Context);
+  const matrix = viewMatrix(game);
+  const justCleared = game.justCleared ?? []; // &lt;-- líneas recientemente eliminadas
 &nbsp;
   return (
     &lt;div
-      className="piece-view"
+      className="game-board"
       style={{
         display: 'grid',
-        gridTemplateColumns: `repeat(${blocks[0].length}, var(--preview-size))`,
-        gridTemplateRows: `repeat(${blocks.length}, var(--preview-size))`,
-        gap: '0'
+        gridTemplateColumns: `repeat(${matrix[0]!.length}, var(--block-size))`, // ! because matrix is fixed-size
+        gridTemplateRows: `repeat(${matrix.length}, var(--block-size))`
       }}
     &gt;
-      {blocks.flatMap((row, i) =&gt;
+      {matrix.flatMap((row, i) =&gt;
         row.map((block, j) =&gt; {
-          const cellClass = `game-block ${
-            block &amp;&amp; piece ? className : 'block-empty'
-          } piece-preview`;
-          return &lt;div key={`${i}-${j}`} className={cellClass} /&gt;;
+          let classString = 'game-block';
+&nbsp;
+          if (!block) {
+            classString += ' block-empty';
+          } else if (block === 'ghost') {
+            classString += ' ghost';
+          } else {
+            classString += ` ${getClassName(block)}`;
+          }
+&nbsp;
+          // 👇 Animación para líneas limpiadas
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (justCleared.includes(i)) {
+<span class="cstat-no" title="statement not covered" >            classString += ' cleared-line';</span>
+          }
+&nbsp;
+          return &lt;div key={`${i}-${j}`} className={classString} /&gt;;
         })
       )}
     &lt;/div&gt;
   );
-};
-&nbsp;
-export default PieceView;
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -205,7 +202,7 @@ export default PieceView;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-17T02:47:02.844Z
+                at 2025-05-18T21:12:34.163Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

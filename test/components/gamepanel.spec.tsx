@@ -1,12 +1,12 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import GamePanel from '../../src/components/Tetris2/GamePanel/GamePanel';
 
 /** ----------------------------------------------------------------
  *  Mock TetrisEngine *before* importing GamePanel
  *  ---------------------------------------------------------------- */
-vi.mock('../../src/components/game/TetrisEngine', async () => {
-  // put the component inside the factory so it's defined *before* being returned
+vi.mock('../../src/components/Tetris2/TetrisEngine', async () => {
   const FakeEngine: React.FC<{
     children: (p: {
       Gameboard: React.FC;
@@ -32,10 +32,8 @@ vi.mock('../../src/components/game/TetrisEngine', async () => {
       })}
     </>
   );
-
   return { default: FakeEngine };
 });
-import GamePanel from '../../src/components/game/GamePanel/GamePanel';
 
 /** ----------------------------------------------------------------
  *  Tests
