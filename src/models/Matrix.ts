@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Constants from '../constants';
 import { getBlocks, isRotation } from './Piece';
 import type { Piece, Rotation } from './Piece';

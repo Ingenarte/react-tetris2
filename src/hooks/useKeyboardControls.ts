@@ -1,5 +1,6 @@
+// src/hooks/useKeyboardControls.ts
 import React from 'react';
-import key from 'keymaster';
+import keymaster from 'keymaster';
 import DetectShift from '../modules/detect-shift';
 import { Action } from '../models/Game';
 
@@ -10,36 +11,43 @@ export const useKeyboardControls = (
   dispatch: React.Dispatch<Action>
 ): void => {
   React.useEffect(() => {
-    const keyboardDispatch = Object.entries(
-      keyboardMap
-    ).reduce<KeyboardDispatch>((output, [key, action]) => {
-      output[key] = () => dispatch(action);
+    const keyboardDispatch = Object.entries(keyboardMap).reduce<
+      Record<string, () => void>
+    >((output, [k, action]) => {
+      output[k] = () => dispatch(action);
       return output;
     }, {});
+
     addKeyboardEvents(keyboardDispatch);
     return () => removeKeyboardEvents(keyboardDispatch);
   }, [keyboardMap, dispatch]);
 };
 
-function addKeyboardEvents(keyboardMap: KeyboardDispatch) {
-  Object.keys(keyboardMap).forEach((k: keyof KeyboardDispatch) => {
-    const fn = keyboardMap[k];
-    if (k === 'shift' && fn) {
-      DetectShift.bind(fn);
-    } else if (fn) {
-      key(k, fn);
-    }
-  });
-}
-function removeKeyboardEvents(keyboardMap: KeyboardDispatch) {
+function addKeyboardEvents(keyboardMap: Record<string, () => void>) {
   Object.keys(keyboardMap).forEach((k) => {
+    const fn = keyboardMap[k];
     if (k === 'shift') {
-      const fn = keyboardMap[k];
-      fn && DetectShift.unbind(fn);
+      if (fn) {
+        // direct call expression—allowed by no-unused-expressions
+        DetectShift.bind(fn);
+      }
     } else {
-      key.unbind(k);
+      if (fn) {
+        keymaster(k, fn);
+      }
     }
   });
 }
 
-type KeyboardDispatch = Record<string, () => void>;
+function removeKeyboardEvents(keyboardMap: Record<string, () => void>) {
+  Object.keys(keyboardMap).forEach((k) => {
+    const fn = keyboardMap[k];
+    if (k === 'shift') {
+      if (fn) {
+        DetectShift.unbind(fn);
+      }
+    } else {
+      keymaster.unbind(k);
+    }
+  });
+}

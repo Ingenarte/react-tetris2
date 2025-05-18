@@ -1,8 +1,7 @@
-// tsconfig.build.json
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
+    /* Build mode: emit to dist/, including .d.ts and maps */
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

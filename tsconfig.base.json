@@ -1,21 +1,39 @@
 {
   "compilerOptions": {
-    "lib": ["ES2019", "dom"],
-    "types": ["styled-components"],
+    /* Core settings */
+    "target": "ES2019",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "rootDir": "./src",
+
+    /* Strictness */
     "strict": true,
-    "noImplicitReturns": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "jsx": "react",
+
+    /* Interop */
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "rootDir": "./src",
+
+    /* Output (overridden in extended configs) */
     "outDir": "./lib",
-    "module": "ES2020",
-    "moduleResolution": "Node",
-    "declaration": true
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+
+    /* Which libs & types to include */
+    "lib": ["ES2019", "dom"],
+    "types": ["node", "styled-components"],
+
+    /* Skip type-checking inside node_modules */
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["./test", "src/app", "vite.config.ts"],
-  "include": ["src", "src/theme.ts"]
+
+  "include": ["src", "index.d.ts"],
+  "exclude": ["node_modules", "dist", "lib", "test", "src/app", "vite.config.ts"]
 }

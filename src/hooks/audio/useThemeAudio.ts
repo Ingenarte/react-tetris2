@@ -25,10 +25,8 @@ export function useThemeAudio(): ThemeAudioControls {
   const [, bump] = useState(0);
 
   useEffect(() => {
-    const trigger = () => bump((v) => v + 1); // 0-arg listener
+    const trigger = () => bump((v) => v + 1);
     listeners.add(trigger);
-
-    /* ✅ cleanup returns void */
     return () => {
       listeners.delete(trigger);
     };
@@ -36,7 +34,11 @@ export function useThemeAudio(): ThemeAudioControls {
 
   /* controls */
   const togglePlay = useCallback(() => {
-    playing ? audio.pause() : audio.play().catch(() => {});
+    if (playing) {
+      audio.pause();
+    } else {
+      audio.play().catch(() => {});
+    }
     playing = !playing;
     notify();
   }, []);

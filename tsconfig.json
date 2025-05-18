@@ -1,10 +1,10 @@
-// tsconfig.json
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./lib",               // if you ever want a dev build here
-    "declaration": false,            // dev mode doesn’t emit types
-    "declarationMap": false
+    /* Dev mode: don’t emit types or overwrite your dist/ */
+    "outDir": "./lib",
+    "declaration": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false
   }
 }
