@@ -1,3 +1,5 @@
+// src/models/Game.ts
+
 import {
   Matrix,
   PositionedPiece,
@@ -15,7 +17,11 @@ import {
   clearFullLines
 } from './Matrix';
 import Constants from '../constants';
-import * as PieceQueue from '../modules/piece-queue';
+import {
+  createPieceQueue,
+  getNext,
+  type PieceQueue as PieceQueueType
+} from '../modules/piece-queue';
 
 export type State = 'PAUSED' | 'PLAYING' | 'LOST';
 
@@ -30,7 +36,7 @@ export type Game = {
   matrix: Matrix;
   piece: PositionedPiece;
   heldPiece: HeldPiece | undefined;
-  queue: PieceQueue.PieceQueue;
+  queue: PieceQueueType;
   points: number;
   lines: number;
   justCleared?: number[];
@@ -55,29 +61,28 @@ export type Action =
 
 export const update = (game: Game, action: Action): Game => {
   switch (action) {
-    case 'RESTART': {
+    case 'RESTART':
       return init();
-    }
-    case 'PAUSE': {
+
+    case 'PAUSE':
       return game.state === 'PLAYING' ? { ...game, state: 'PAUSED' } : game;
-    }
-    case 'RESUME': {
+
+    case 'RESUME':
       return game.state === 'PAUSED' ? { ...game, state: 'PLAYING' } : game;
-    }
-    case 'TOGGLE_PAUSE': {
+
+    case 'TOGGLE_PAUSE':
       if (game.state === 'PLAYING') return { ...game, state: 'PAUSED' };
       if (game.state === 'PAUSED') return { ...game, state: 'PLAYING' };
       return game;
-    }
-    case 'HARD_DROP': {
+
+    case 'HARD_DROP':
       if (game.state !== 'PLAYING') return game;
-      const piece = hardDrop(game.matrix, game.piece);
-      return lockInPiece({ ...game, piece });
-    }
-    case 'MOVE_DOWN': {
+      const dropped = hardDrop(game.matrix, game.piece);
+      return lockInPiece({ ...game, piece: dropped });
+
+    case 'MOVE_DOWN':
       if (game.state !== 'PLAYING') return game;
 
-      // si hubiera una limpieza diferida, la aplicamos primero
       if (game.pendingClear) {
         const [newMatrix, , linesCleared] = clearFullLines(game.matrix);
         return commitPiece(
@@ -87,18 +92,15 @@ export const update = (game: Game, action: Action): Game => {
         );
       }
 
-      // intentamos bajar la pieza
-      const updated = applyMove(moveDown, game);
-
-      // si no pudo bajar, se bloquea y se evalúan líneas
-      if (game.piece === updated.piece) {
-        return lockInPiece(updated);
+      const movedDown = applyMove(moveDown, game);
+      if (movedDown.piece === game.piece) {
+        return lockInPiece(movedDown);
       }
-      // si sí bajó, devolvemos el estado actualizado
-      return updated;
-    }
-    case 'TICK': {
+      return movedDown;
+
+    case 'TICK':
       if (game.state !== 'PLAYING' && !game.pendingClear) return game;
+
       if (game.pendingClear) {
         const [newMatrix, , linesCleared] = clearFullLines(game.matrix);
         return commitPiece(
@@ -107,31 +109,30 @@ export const update = (game: Game, action: Action): Game => {
           linesCleared
         );
       }
-      const updated = applyMove(moveDown, game);
 
-      if (game.piece === updated.piece) {
-        return lockInPiece(updated);
-      } else {
-        return updated;
+      const ticked = applyMove(moveDown, game);
+      if (ticked.piece === game.piece) {
+        return lockInPiece(ticked);
       }
-    }
-    case 'MOVE_LEFT': {
+      return ticked;
+
+    case 'MOVE_LEFT':
       return applyMove(moveLeft, game);
-    }
-    case 'MOVE_RIGHT': {
+
+    case 'MOVE_RIGHT':
       return applyMove(moveRight, game);
-    }
-    case 'FLIP_CLOCKWISE': {
+
+    case 'FLIP_CLOCKWISE':
       return applyMove(flipClockwise, game);
-    }
-    case 'FLIP_COUNTERCLOCKWISE': {
+
+    case 'FLIP_COUNTERCLOCKWISE':
       return applyMove(flipCounterclockwise, game);
-    }
-    case 'HOLD': {
+
+    case 'HOLD':
       if (game.state !== 'PLAYING') return game;
       if (game.heldPiece && !game.heldPiece.available) return game;
 
-      // Ensure the held piece will fit on the matrix
+      // can we swap in the held piece?
       if (
         game.heldPiece &&
         !isEmptyPosition(game.matrix, {
@@ -142,19 +143,19 @@ export const update = (game: Game, action: Action): Game => {
         return game;
       }
 
-      const next = PieceQueue.getNext(game.queue);
-      const newPiece = game.heldPiece?.piece ?? next.piece;
+      // pull next from queue
+      const nextHold = getNext(game.queue);
+      const newPieceForHold = game.heldPiece?.piece ?? nextHold.piece;
 
       return {
         ...game,
-        heldPiece: { piece: game.piece.piece, available: false }, // hmm
-        piece: initializePiece(newPiece),
-        queue: newPiece === next.piece ? next.queue : game.queue
+        heldPiece: { piece: game.piece.piece, available: false },
+        piece: initializePiece(newPieceForHold),
+        queue: newPieceForHold === nextHold.piece ? nextHold.queue : game.queue
       };
-    }
-    default: {
+
+    default:
       throw new Error(`Unhandled action: ${action}`);
-    }
   }
 };
 
@@ -166,8 +167,9 @@ export function getClearedLineIndexes(matrix: Matrix): number[] {
 }
 
 function commitPiece(game: Game, matrix: Matrix, linesCleared: number): Game {
-  const next = PieceQueue.getNext(game.queue);
-  const piece = initializePiece(next.piece);
+  const nextCommit = getNext(game.queue);
+  const piece = initializePiece(nextCommit.piece);
+
   return {
     ...game,
     state: isEmptyPosition(matrix, piece) ? game.state : 'LOST',
@@ -176,7 +178,7 @@ function commitPiece(game: Game, matrix: Matrix, linesCleared: number): Game {
     heldPiece: game.heldPiece
       ? { ...game.heldPiece, available: true }
       : undefined,
-    queue: next.queue,
+    queue: nextCommit.queue,
     lines: game.lines + linesCleared,
     points: game.points + addScore(linesCleared),
     justCleared: [],
@@ -185,73 +187,67 @@ function commitPiece(game: Game, matrix: Matrix, linesCleared: number): Game {
 }
 
 const lockInPiece = (game: Game): Game => {
-  const matrixWithPiece = setPiece(game.matrix, game.piece);
+  const withPiecePlaced = setPiece(game.matrix, game.piece);
+  const justCleared = getClearedLineIndexes(withPiecePlaced);
 
-  const justCleared = getClearedLineIndexes(matrixWithPiece);
   if (justCleared.length > 0) {
     return {
       ...game,
-      matrix: matrixWithPiece,
-      justCleared, // <- líneas a animar
-      pendingClear: true // <- flag para que el próximo tick limpie realmente
+      matrix: withPiecePlaced,
+      justCleared,
+      pendingClear: true
     };
   }
 
-  return commitPiece(game, matrixWithPiece, 0);
+  return commitPiece(game, withPiecePlaced, 0);
 };
+
 const pointsPerLine = 100;
-const addScore = (additionalLines: number) => {
-  // what's this called?
-  if (additionalLines === 4) {
-    return pointsPerLine * 10;
-  } else {
-    return additionalLines * pointsPerLine;
-  }
-};
+const addScore = (lines: number) =>
+  lines === 4 ? pointsPerLine * 10 : lines * pointsPerLine;
 
 const initialPosition = {
   x: Constants.GAME_WIDTH / 2 - Constants.BLOCK_WIDTH / 2,
   y: 0
 };
 
-const initializePiece = (piece: Piece): PositionedPiece => {
-  return {
-    position: initialPosition,
-    piece,
-    rotation: 0
-  };
-};
+const initializePiece = (piece: Piece): PositionedPiece => ({
+  position: initialPosition,
+  piece,
+  rotation: 0
+});
 
 const applyMove = (
-  move: (matrix: Matrix, piece: PositionedPiece) => PositionedPiece | undefined,
+  moveFn: (
+    matrix: Matrix,
+    piece: PositionedPiece
+  ) => PositionedPiece | undefined,
   game: Game
 ): Game => {
   if (game.state !== 'PLAYING') return game;
-  const afterFlip = move(game.matrix, game.piece);
-  return afterFlip ? { ...game, piece: afterFlip } : game;
+  const moved = moveFn(game.matrix, game.piece);
+  return moved ? { ...game, piece: moved } : game;
 };
 
 export const init = (): Game => {
-  const queue = PieceQueue.create(5);
-  const next = PieceQueue.getNext(queue);
+  // start with 5-bag
+  const startQueue = createPieceQueue(5);
+  const first = getNext(startQueue);
+
   return {
     state: 'PAUSED',
     points: 0,
     lines: 0,
     matrix: buildMatrix(),
-    piece: initializePiece(next.piece),
+    piece: initializePiece(first.piece),
     heldPiece: undefined,
-    queue: next.queue
+    queue: first.queue
   };
 };
 
-// Good display of merging piece + matrix
+// for UI: overlay the current + ghost piece
 export function viewMatrix(game: Game): Matrix {
-  let gameboard = game.matrix;
-
-  // set the preview
-  gameboard = addPieceToBoard(gameboard, hardDrop(gameboard, game.piece), true);
-
-  // set the actual piece
-  return addPieceToBoard(gameboard, game.piece);
+  let board = game.matrix;
+  board = addPieceToBoard(board, hardDrop(game.matrix, game.piece), true);
+  return addPieceToBoard(board, game.piece);
 }

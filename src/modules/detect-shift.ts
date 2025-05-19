@@ -1,41 +1,41 @@
-/* global document */
+// no default export here—only named exports
 
 type Callback = () => void;
 const callbacks: Callback[] = [];
 let isPressed = false;
 
-document.addEventListener('keydown', (e) => {
+function keydownListener(e: KeyboardEvent) {
   if (e.shiftKey && !isPressed) {
-    isPressed = e.shiftKey;
-    callCallbacks();
+    isPressed = true;
+    callbacks.forEach((cb) => cb());
   }
-
-  return true;
-});
-
-document.addEventListener('keyup', (e) => {
-  if (!e.shiftKey && isPressed) {
-    isPressed = e.shiftKey;
-  }
-
-  return true;
-});
-
-function callCallbacks() {
-  callbacks.forEach((callback) => {
-    callback();
-  });
 }
 
-export default {
-  bind(callback: Callback): void {
-    callbacks.push(callback);
-  },
-
-  unbind(callback: Callback): void {
-    const index = callbacks.indexOf(callback);
-    if (index !== -1) {
-      callbacks.splice(index, 1);
-    }
+function keyupListener(e: KeyboardEvent) {
+  if (!e.shiftKey && isPressed) {
+    isPressed = false;
   }
-};
+}
+
+export function start() {
+  document.addEventListener('keydown', keydownListener);
+  document.addEventListener('keyup', keyupListener);
+}
+
+export function stop() {
+  document.removeEventListener('keydown', keydownListener);
+  document.removeEventListener('keyup', keyupListener);
+  isPressed = false;
+  callbacks.length = 0; // clear all callbacks
+}
+
+export function bind(callback: Callback) {
+  if (!callbacks.includes(callback)) {
+    callbacks.push(callback);
+  }
+}
+
+export function unbind(callback: Callback) {
+  const idx = callbacks.indexOf(callback);
+  if (idx !== -1) callbacks.splice(idx, 1);
+}
