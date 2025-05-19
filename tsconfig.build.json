@@ -1,11 +1,15 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    /* Build mode: emit to dist/, including .d.ts and maps */
+    /* Build mode: emit into dist/, including types and maps */
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false
   },
-  "include": ["src", "index.d.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "index.d.ts"
+  ]
 }

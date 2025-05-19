@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    /* Core settings */
+    /* 1. Transform target & modules */
     "target": "ES2019",
     "module": "ES2020",
     "moduleResolution": "node",
     "jsx": "react-jsx",
     "rootDir": "./src",
 
-    /* Strictness */
+    /* 2. Strictness flags */
     "strict": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -15,25 +15,35 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
 
-    /* Interop */
+    /* 3. Interop for CommonJS & default imports */
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
-    /* Output (overridden in extended configs) */
+    /* 4. Output defaults (overridden in other configs) */
     "outDir": "./lib",
     "declaration": true,
     "declarationMap": false,
     "emitDeclarationOnly": false,
 
-    /* Which libs & types to include */
+    /* 5. Standard lib runtime */
     "lib": ["ES2019", "dom"],
-    "types": ["node", "styled-components"],
 
-    /* Skip type-checking inside node_modules */
+    /* 6. Skip deep type‐checks in node_modules */
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-
-  "include": ["src", "index.d.ts"],
-  "exclude": ["node_modules", "dist", "lib", "test", "src/app", "vite.config.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "index.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib",
+    "test",
+    "vite.config.ts",
+    ".storybook",
+    "storybook-static"
+  ]
 }
