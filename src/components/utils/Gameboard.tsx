@@ -1,7 +1,7 @@
 // src/components/utils/GameboardView.tsx
 import { useContext } from 'react';
-
 import styled from 'styled-components';
+
 import { Context } from '../../context';
 import { viewMatrix } from '../../models/Game';
 import { getClassName } from '../../models/Piece';

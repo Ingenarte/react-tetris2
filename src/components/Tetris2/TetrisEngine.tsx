@@ -1,26 +1,15 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 
 import * as Game from '../../models/Game';
 import { Context } from '../../context';
 import HeldPiece from '../utils/HeldPiece';
-import Gameboard from '../utils/Gameboard';
+import GameboardView from '../utils/Gameboard';
 import PieceQueue from '../utils/PieceQueue';
 import {
   KeyboardMap,
   useKeyboardControls
 } from '../../hooks/useKeyboardControls';
-
-export type RenderFn = (params: {
-  HeldPiece: React.ComponentType;
-  Gameboard: React.ComponentType;
-  PieceQueue: React.ComponentType;
-  points: number;
-  linesCleared: number;
-  level: number;
-  state: Game.State;
-  controller: Controller;
-  credits: number;
-}) => React.ReactElement;
+import { useTetrisEngine } from '../../hooks/useTetrisEngine';
 
 export type Controller = {
   pause: () => void;
@@ -34,6 +23,18 @@ export type Controller = {
   flipCounterclockwise: () => void;
   restart: () => void;
 };
+
+export type RenderFn = (params: {
+  HeldPiece: React.ComponentType;
+  Gameboard: React.ComponentType;
+  PieceQueue: React.ComponentType;
+  points: number;
+  linesCleared: number;
+  level: number;
+  state: Game.State;
+  controller: Controller;
+  credits: number;
+}) => React.ReactElement;
 
 type Props = {
   keyboardControls?: KeyboardMap;
@@ -55,50 +56,35 @@ const defaultKeyboardMap: KeyboardMap = {
   shift: 'HOLD'
 };
 
-// https://harddrop.com/wiki/Tetris_Worlds#Gravity
-const tickSeconds = (level: number) =>
-  (0.8 - (level - 1) * 0.007) ** (level - 1);
-
+/**
+ * The main Tetris “engine” + render-prop wrapper.
+ *
+ * @param props.manageCredits  if `true`, each resume will decrement `credits`
+ * @param props.credits        starting credits (default 9999)
+ * @param props.keyboardControls  override the key→action map
+ * @param props.children       render-prop receiving game state + controller
+ */
 export default function Tetris(props: Props): JSX.Element {
-  const [game, dispatch] = React.useReducer(Game.update, Game.init());
+  // 1) pull in game / dispatch / current level & gravity ticker
+  const { game, dispatch, level } = useTetrisEngine();
 
-  const keyboardMap = props.keyboardControls ?? defaultKeyboardMap;
-  useKeyboardControls(keyboardMap, dispatch);
-  const level = Game.getLevel(game);
-  const [internalCredits, setInternalCredits] = React.useState(
-    props.credits ?? 9999
-  );
-  const credits =
-    props.manageCredits === false ? props.credits ?? 9999 : internalCredits;
+  // 2) credits state (only decremented if manageCredits=true)
+  const [credits, setCredits] = useState(props.credits ?? 9999);
+  const manage = props.manageCredits !== false;
 
-  React.useEffect(() => {
-    let interval: number | undefined;
-    if (game.state === 'PLAYING') {
-      interval = window.setInterval(
-        () => {
-          dispatch('TICK');
-        },
-        tickSeconds(level) * 1000
-      );
-    }
+  // 3) wire up keyboard → dispatch
+  useKeyboardControls(props.keyboardControls ?? defaultKeyboardMap, dispatch);
 
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, [game.state, level]);
-
-  const controller = React.useMemo(
+  // 4) build a controllers object that satisfies our Controller type
+  const controller: Controller = useMemo(
     () => ({
       pause: () => dispatch('PAUSE'),
       resume: () => {
-        if (props.manageCredits !== false) {
-          setInternalCredits((prev) => {
-            if (prev > 0) {
-              dispatch('RESUME');
-              return prev - 1;
-            }
-            return 0;
-          });
+        if (manage) {
+          if (credits > 0) {
+            setCredits((c) => c - 1);
+            dispatch('RESUME');
+          }
         } else {
           dispatch('RESUME');
         }
@@ -112,19 +98,20 @@ export default function Tetris(props: Props): JSX.Element {
       flipCounterclockwise: () => dispatch('FLIP_COUNTERCLOCKWISE'),
       restart: () => dispatch('RESTART')
     }),
-    [dispatch, props.manageCredits, setInternalCredits]
+    [dispatch, credits, manage]
   );
 
+  // 5) provide game state via context + render children
   return (
     <Context.Provider value={game}>
       {props.children({
         HeldPiece,
-        Gameboard,
+        Gameboard: GameboardView,
         PieceQueue,
         points: game.points,
         linesCleared: game.lines,
-        state: game.state,
         level,
+        state: game.state,
         controller,
         credits
       })}
