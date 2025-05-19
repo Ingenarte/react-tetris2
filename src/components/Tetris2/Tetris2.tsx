@@ -1,7 +1,7 @@
 import React, { useRef, useImperativeHandle, forwardRef } from 'react';
 
 import { useThemeAudio } from '../../hooks/audio/useThemeAudio';
-import { ThemeAudioButton } from '../../hooks/ThemeAudioButton';
+import { ThemeAudioButton } from '../ui/ThemeAudioButton';
 import Tetris from './TetrisEngine';
 import {
   Container,
@@ -13,12 +13,12 @@ import {
   Sidebar,
   SidebarLeft,
   VerticallyCenterChildren
-} from './ui/LayoutWrappers';
-import ScorePanel from './ui/ScorePanel';
-import { Popup, PopupGameOver, PopupStart } from './ui/Popup';
-import Alert from './ui/Alert';
-import Button from './ui/Button';
-import ControlsPanel from './ui/ControlsPanel';
+} from '../ui/LayoutWrappers';
+import ScorePanel from '../ui/ScorePanel';
+import { Popup, PopupGameOver, PopupStart } from '../ui/Popup';
+import Alert from '../ui/Alert';
+import Button from '../ui/Button';
+import ControlsPanel from '../ui/ControlsPanel';
 import { ErrorBoundary } from '../ErrorBoundary';
 
 export type Tetris2Handle = {

@@ -1,8 +1,9 @@
+// ui/ThemeAudioButton.tsx
 import React from 'react';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 
-import { useThemeAudio } from './audio/useThemeAudio';
+import { useThemeAudio } from '../../hooks/audio/useThemeAudio';
 
 const Wrapper = styled.div`
   position: absolute;
@@ -24,18 +25,13 @@ const IconBase = css`
 
 const Spacer = styled.div`
   ${IconBase};
-  pointer-events: none; /* reserve room for a hidden play btn */
+  pointer-events: none; /* reserve room for a hidden play button */
 `;
 
 const MuteBtn = styled.button.attrs({
   type: 'button'
 })`
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border-radius: 6px;
-  font-size: 18px;
+  ${IconBase};
   background: #28203e;
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #f0f0f0;
@@ -58,11 +54,30 @@ const MuteBtn = styled.button.attrs({
     border-color: rgba(16, 16, 31, 0.3);
   }
 `;
-interface Props {
+
+interface ThemeAudioButtonProps {
+  /** When true, the mute/unmute button is disabled */
   disabled?: boolean;
 }
 
-export const ThemeAudioButton: React.FC<Props> = ({ disabled }) => {
+/**
+ * Renders a mute/unmute toggle button for the Tetris theme music.
+ *
+ * @remarks
+ * - Uses the `useThemeAudio` hook to read `isMuted` state and `toggleMute` action.
+ * - Displays a placeholder spacer to reserve layout space for a potential play button.
+ * - When `disabled` is true, the button is non-interactive and styled accordingly.
+ *
+ * @param props.disabled - If true, disables the button to prevent toggling.
+ *
+ * @example
+ * ```tsx
+ * <ThemeAudioButton disabled={false} />
+ * ```
+ */
+export const ThemeAudioButton: React.FC<ThemeAudioButtonProps> = ({
+  disabled = false
+}) => {
   const { isMuted, toggleMute } = useThemeAudio();
 
   return (
@@ -80,3 +95,5 @@ export const ThemeAudioButton: React.FC<Props> = ({ disabled }) => {
     </Wrapper>
   );
 };
+
+export default ThemeAudioButton;

@@ -1,6 +1,23 @@
 // ui/Popup.tsx
 import styled from 'styled-components';
 
+/**
+ * A reusable centered modal container.
+ *
+ * @remarks
+ * - Absolutely positioned in the viewport center.
+ * - Semi‐transparent dark background with rounded corners and drop shadow.
+ * - Constrains its width to 90% of the viewport.
+ *
+ * @example
+ * ```tsx
+ * <Popup>
+ *   <h2>Paused</h2>
+ *   <button onClick={resume}>Resume</button>
+ * </Popup>
+ * ```
+ */
+
 export const Popup = styled.div`
   position: absolute;
   top: 50%;

@@ -3,6 +3,24 @@ import styled from 'styled-components';
 
 import Divider from './Divider';
 
+/**
+ * A floating panel listing all keyboard controls and their descriptions.
+ *
+ * @remarks
+ * - Uses a monospace font for key labels and responsive sizing for the panel.
+ * - Automatically hides on small viewports via CSS media queries in parent styles.
+ *
+ * @example
+ * ```tsx
+ * import ControlsPanel from './ControlsPanel';
+ *
+ * // Renders a legend of all keybindings for the Tetris game
+ * <ControlsPanel />;
+ * ```
+ *
+ * @returns A styled `<div>` containing rows of key → description mappings.
+ */
+
 const Panel = styled.div`
   display: flex;
   flex-direction: column;

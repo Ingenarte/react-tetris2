@@ -1,32 +1,25 @@
-// eslint.config.cjs
+// eslint.config.js
+import { FlatCompat } from '@eslint/eslintrc';
+// import the entire module as a default, since @eslint/js is CJS
+import jsPkg from '@eslint/js';
+const { configs: jsConfigs } = jsPkg;
 
-// 1) FlatCompat helper
-const { FlatCompat } = require('@eslint/eslintrc');
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import reactPlugin from 'eslint-plugin-react';
+import importPlugin from 'eslint-plugin-import';
+import prettierPlugin from 'eslint-plugin-prettier';
+import securityPlugin from 'eslint-plugin-security';
 
-// 2) ESLint’s built-in “eslint:recommended” from @eslint/js
-const { configs } = require('@eslint/js');
-const eslintRecommended = configs.recommended;
+const eslintRecommended = jsConfigs.recommended;
+const securityRecommendedRules = securityPlugin.configs.recommended.rules;
 
-// 3) Plugins & parser
-const tsPlugin = require('@typescript-eslint/eslint-plugin');
-const tsParser = require('@typescript-eslint/parser');
-const reactPlugin = require('eslint-plugin-react');
-const importPlugin = require('eslint-plugin-import');
-const prettierPlugin = require('eslint-plugin-prettier');
-const securityPlugin = require('eslint-plugin-security');
-
-// 4) Grab security-recommended rules
-const securityRecommended = securityPlugin.configs.recommended.rules;
-
-// 5) Create compat
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: import.meta.url,
   recommendedConfig: eslintRecommended
 });
 
-// 6) Export flat config
-module.exports = [
-  // A) ignores
+export default [
   {
     ignores: [
       'dist/**',
@@ -36,8 +29,6 @@ module.exports = [
       'storybook-static/**'
     ]
   },
-
-  // B) extends (excluding security because it contains unsupported top-level props)
   ...compat.extends(
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
@@ -45,8 +36,6 @@ module.exports = [
     'plugin:storybook/recommended',
     'plugin:prettier/recommended'
   ),
-
-  // C) per-file overrides
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
@@ -61,29 +50,37 @@ module.exports = [
       '@typescript-eslint': tsPlugin,
       react: reactPlugin,
       import: importPlugin,
-      security: securityPlugin,
-      prettier: prettierPlugin
+      prettier: prettierPlugin,
+      security: securityPlugin
     },
+
     settings: {
       react: { version: 'detect' },
+
+      // 1) Tell import-plugin which parser handles TS files
+      'import/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx']
+      },
+
+      // 2) Add the TS resolver
       'import/resolver': {
+        // First try TypeScript’s own resolution (reads tsconfig.json, .d.ts, etc)
         typescript: {
-          // optional: if your tsconfig is in a nonstandard location:
-          // project: "./tsconfig.json"
+          alwaysTryTypes: true, // <- this makes it pick up @types/ packages
+          project: './tsconfig.json'
+        },
+        // Then fallback to Node’s standard resolution
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx']
         }
       }
     },
+
     rules: {
-      // 1) Prettier
+      'import/no-named-as-default-member': 'off',
       'prettier/prettier': 'error',
-
-      // 2) TypeScript
       '@typescript-eslint/no-explicit-any': 'error',
-
-      // 3) React
       'react/react-in-jsx-scope': 'off',
-
-      // 4) Import order
       'import/order': [
         'warn',
         {
@@ -94,16 +91,9 @@ module.exports = [
           'newlines-between': 'always'
         }
       ],
-
-      // 5) Max line length
       'max-len': ['warn', { code: 100, ignoreComments: true }],
-
-      // 6) Console
       'no-console': ['warn', { allow: ['error'] }],
-
-      // 7) Security plugin rules
-      ...securityRecommended,
-      // disable the noisy one
+      ...securityRecommendedRules,
       'security/detect-object-injection': 'off'
     }
   }

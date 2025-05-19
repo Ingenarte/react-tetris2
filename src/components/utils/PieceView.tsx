@@ -23,7 +23,7 @@ const PieceView: React.FC<Props> = ({ piece }): JSX.Element => {
 
   return (
     <div
-      className="piece-view"
+      className='piece-view'
       style={{
         display: 'grid',
         gridTemplateColumns: `repeat(${blocks[0].length}, var(--preview-size))`,
