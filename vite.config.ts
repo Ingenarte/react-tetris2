@@ -1,16 +1,28 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { configDefaults } from 'vitest/config';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
-  plugins: [react()],
-  root: '.', // usá la raíz como carpeta base
+  plugins: [
+    react(),
+    dts({
+      tsconfigPath: 'tsconfig.build.json', // ← use build config
+      // belt-and-braces: double-exclude just in case
+      exclude: ['**/*.stories.*', '**/*.test.*']
+    })
+  ],
   build: {
-    outDir: 'dist'
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    exclude: [...configDefaults.exclude]
+    lib: {
+      entry: 'src/index.ts',
+      name: 'Tetris2',
+      formats: ['es', 'cjs'],
+      fileName: (fmt) => `index.${fmt}.js`
+    },
+    rollupOptions: {
+      external: ['react', 'react-dom', 'styled-components'],
+      output: { globals: { react: 'React', 'react-dom': 'ReactDOM' } }
+    },
+    outDir: 'dist',
+    emptyOutDir: true
   }
 });

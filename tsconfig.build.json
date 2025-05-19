@@ -7,9 +7,6 @@
     "declarationMap": true,
     "emitDeclarationOnly": false
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "index.d.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "index.d.ts"],
+  "exclude": ["**/*.stories.*", "**/*.test.*", "**/__tests__/**"]
 }
