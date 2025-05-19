@@ -1,6 +1,7 @@
 // src/components/utils/PieceView.tsx
 import React from 'react';
 import styled from 'styled-components';
+
 import { ActivePiece, getBlocks, getClassName } from '../../models/Piece';
 
 /**
@@ -26,7 +27,8 @@ const PieceView: React.FC<PieceViewProps> = ({ piece }) => {
     const rotation = piece?.rotation ?? 0;
     const shape = piece ? getBlocks(piece.piece)[rotation] : undefined;
     return (
-      shape! /* assert non‐null */ ?? [ // fallback 4×4 zeroes
+      shape! /* assert non‐null */ ?? [
+        // fallback 4×4 zeroes
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],

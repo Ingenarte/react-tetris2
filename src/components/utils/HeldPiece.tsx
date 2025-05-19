@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Context } from '../../context';
 import type { ActivePiece } from '../../models/Piece';
 import PieceView from './PieceView';
