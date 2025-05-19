@@ -8,13 +8,25 @@ importers:
 
   .:
     dependencies:
+      keymaster:
+        specifier: 1.6.2
+        version: 1.6.2
       react:
         specifier: ^18.0.0 || ^19.1.0
         version: 19.1.0
       react-dom:
         specifier: ^18.0.0 || ^19.1.0
         version: 19.1.0(react@19.1.0)
+      react-icons:
+        specifier: ^5.5.0
+        version: 5.5.0(react@19.1.0)
+      styled-components:
+        specifier: ^5.3.11
+        version: 5.3.11(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react-is@18.3.1)(react@19.1.0)
     devDependencies:
+      '@axe-core/playwright':
+        specifier: ^4
+        version: 4.10.1(playwright-core@1.52.0)
       '@chromatic-com/storybook':
         specifier: ^3.2.6
         version: 3.2.6(react@19.1.0)(storybook@8.6.14(prettier@3.5.3))
@@ -30,6 +42,9 @@ importers:
       '@eslint/js':
         specifier: ^9.27.0
         version: 9.27.0
+      '@playwright/test':
+        specifier: ^1.52.0
+        version: 1.52.0
       '@storybook/addon-a11y':
         specifier: ^8.6.14
         version: 8.6.14(storybook@8.6.14(prettier@3.5.3))
@@ -147,9 +162,6 @@ importers:
       lint-staged:
         specifier: ^15.5.2
         version: 15.5.2
-      playwright:
-        specifier: ^1.52.0
-        version: 1.52.0
       prettier:
         specifier: ^3.1.0
         version: 3.5.3
@@ -159,9 +171,6 @@ importers:
       storybook:
         specifier: ^8.6.14
         version: 8.6.14(prettier@3.5.3)
-      styled-components:
-        specifier: ^5.3.11
-        version: 5.3.11(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react-is@18.3.1)(react@19.1.0)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -189,6 +198,11 @@ packages:
 
   '@asamuzakjp/css-color@3.1.7':
     resolution: {integrity: sha512-Ok5fYhtwdyJQmU1PpEv6Si7Y+A4cYb8yNM9oiIJC9TzXPMuN9fvdonKJqcnz9TbFqV6bQ8z0giRq0iaOpGZV2g==}
+
+  '@axe-core/playwright@4.10.1':
+    resolution: {integrity: sha512-EV5t39VV68kuAfMKqb/RL+YjYKhfuGim9rgIaQ6Vntb2HgaCaau0h98Y3WEUqW1+PbdzxDtDNjFAipbtZuBmEA==}
+    peerDependencies:
+      playwright-core: '>= 1.0.0'
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -847,6 +861,11 @@ packages:
   '@pkgr/core@0.2.4':
     resolution: {integrity: sha512-ROFF39F6ZrnzSUEmQQZUar0Jt4xVoP9WnDRdWwF4NNcXs3xBTLgBUDoOwW141y1jP+S8nahIbdxbFC7IShw9Iw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@playwright/test@1.52.0':
+    resolution: {integrity: sha512-uh6W7sb55hl7D6vsAeA+V2p5JnlAqzhqFyF0VcJkKZXkgnFcVG9PziERRHQfPLfNGx1C292a4JqbWzhR8L4R1g==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -2828,6 +2847,9 @@ packages:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
 
+  keymaster@1.6.2:
+    resolution: {integrity: sha512-OvA/AALN8IDKKkTk2Z+bDrzs/SQao4lo/QPbwSdDvm+frxfiYiYCSn1aHFUypJY3SruAO1y/c771agBmTXqUtg==}
+
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
@@ -3302,6 +3324,11 @@ packages:
     resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
     peerDependencies:
       react: ^19.1.0
+
+  react-icons@5.5.0:
+    resolution: {integrity: sha512-MEFcXdkP3dLo8uumGI5xN3lDFNsRtrjbOEKDLD7yv76v4wpnEq2Lt2qeHaQOr34I/wPN3s3+N08WkQ+CW37Xiw==}
+    peerDependencies:
+      react: '*'
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -4030,6 +4057,11 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.3
       lru-cache: 10.4.3
 
+  '@axe-core/playwright@4.10.1(playwright-core@1.52.0)':
+    dependencies:
+      axe-core: 4.10.3
+      playwright-core: 1.52.0
+
   '@babel/code-frame@7.27.1':
     dependencies:
       '@babel/helper-validator-identifier': 7.27.1
@@ -4642,6 +4674,10 @@ snapshots:
     optional: true
 
   '@pkgr/core@0.2.4': {}
+
+  '@playwright/test@1.52.0':
+    dependencies:
+      playwright: 1.52.0
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -6933,6 +6969,8 @@ snapshots:
       object.assign: 4.1.7
       object.values: 1.2.1
 
+  keymaster@1.6.2: {}
+
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
@@ -7396,6 +7434,10 @@ snapshots:
     dependencies:
       react: 19.1.0
       scheduler: 0.26.0
+
+  react-icons@5.5.0(react@19.1.0):
+    dependencies:
+      react: 19.1.0
 
   react-is@16.13.1: {}
 

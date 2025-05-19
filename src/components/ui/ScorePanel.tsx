@@ -83,7 +83,7 @@ const ScorePanel = ({
       <Label>Points</Label>
     </StatRow>
     <StatRow>
-      <Digits>{points}</Digits>
+      <Digits data-testid='score'>{points}</Digits>
     </StatRow>
     <Divider />
     <StatRow>

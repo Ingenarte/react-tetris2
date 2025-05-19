@@ -22,6 +22,7 @@ export default function GameboardView(): JSX.Element {
 
   return (
     <Board
+      data-testid='gameboard'
       style={{
         gridTemplateColumns: `repeat(${columns}, var(--block-size))`,
         gridTemplateRows: `repeat(${rows}, var(--block-size))`

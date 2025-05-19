@@ -54,14 +54,18 @@
     "test": "vitest run --coverage",
     "fulltest": "npm run typecheck && npm run lint && npm run test",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "build-storybook -c .storybook"
+    "build-storybook": "build-storybook -c .storybook",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install --with-deps"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4",
     "@chromatic-com/storybook": "^3.2.6",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.27.0",
+    "@playwright/test": "^1.52.0",
     "@storybook/addon-a11y": "^8.6.14",
     "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-onboarding": "^8.6.14",
@@ -101,11 +105,9 @@
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "lint-staged": "^15.5.2",
-    "playwright": "^1.52.0",
     "prettier": "^3.1.0",
     "rimraf": "^5.0.0",
     "storybook": "^8.6.14",
-    "styled-components": "^5.3.11",
     "typescript": "^5.8.3",
     "uglify-js": "3.17.4",
     "vite": "^6.3.5",
@@ -116,6 +118,7 @@
     "keymaster": "1.6.2",
     "react": "^18.0.0 || ^19.1.0",
     "react-dom": "^18.0.0 || ^19.1.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "styled-components": "^5.3.11"
   }
 }

@@ -84,6 +84,7 @@ export const ThemeAudioButton: React.FC<ThemeAudioButtonProps> = ({
     <Wrapper>
       <Spacer />
       <MuteBtn
+        data-testid='audio-toggle'
         onClick={() => {
           if (!disabled) toggleMute();
         }}

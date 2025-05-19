@@ -58,7 +58,7 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
     return (
       <OuterContainer>
         <VerticallyCenterChildren>
-          <Container>
+          <Container data-testid='tetris2-root'>
             {soundEnabled && <ThemeAudioButton />}
             <ErrorBoundary>
               <Tetris credits={credits} manageCredits={manageCredits}>
@@ -165,18 +165,28 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
                         state === 'PAUSED' &&
                         (hasStartedRef.current ? (
                           <Popup>
-                            <Alert>Paused</Alert>
-                            <Button onClick={controller.resume}>Resume</Button>
+                            <Alert>Paused</Alert>+{' '}
+                            <Button
+                              data-testid='resume-btn'
+                              onClick={controller.resume}
+                            >
+                              Resume
+                            </Button>
                           </Popup>
                         ) : (
                           <PopupStart>
-                            <Alert>Start Game</Alert>
-                            <Button onClick={handleStart}>Play</Button>
+                            <Alert>Start Game</Alert>+{' '}
+                            <Button
+                              data-testid='start-btn'
+                              onClick={handleStart}
+                            >
+                              Play
+                            </Button>
                           </PopupStart>
                         ))}
 
                       {showModals && state === 'LOST' && (
-                        <PopupGameOver>
+                        <PopupGameOver data-testid='popup-gameover'>
                           <Alert>Game Over</Alert>
                           <div
                             style={{
@@ -198,6 +208,7 @@ export const Tetris2 = forwardRef<Tetris2Handle, Props>(
                           </div>
 
                           <Button
+                            data-testid='restart-btn'
                             onClick={() => {
                               controller.restart();
                               hasStartedRef.current = false;
