@@ -299,7 +299,12 @@
 <a name='L234'></a><a href='#L234'>234</a>
 <a name='L235'></a><a href='#L235'>235</a>
 <a name='L236'></a><a href='#L236'>236</a>
-<a name='L237'></a><a href='#L237'>237</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -374,22 +379,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -515,6 +522,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -557,6 +565,7 @@ import Alert from '../ui/Alert';
 import Button from '../ui/Button';
 import ControlsPanel from '../ui/ControlsPanel';
 import { ErrorBoundary } from '../ErrorBoundary';
+import { GlobalStyles } from '../utils/GlobalStyles';
 &nbsp;
 export type Tetris2Handle = {
   start: () =&gt; void;
@@ -593,178 +602,181 @@ export const Tetris2 = forwardRef&lt;Tetris2Handle, Props&gt;(
     const hasStartedRef = useRef(false);
 &nbsp;
     return (
-      &lt;OuterContainer&gt;
-        &lt;VerticallyCenterChildren&gt;
-          &lt;Container data-testid='tetris2-root'&gt;
-            {soundEnabled &amp;&amp; &lt;ThemeAudioButton /&gt;}
-            &lt;ErrorBoundary&gt;
-              &lt;Tetris credits={credits} manageCredits={manageCredits}&gt;
-                {({
-                  Gameboard,
-                  HeldPiece,
-                  PieceQueue,
-                  controller,
-                  points,
-                  linesCleared,
-                  state,
-                  level,
-                  credits
-                }) =&gt; {
-                  const handleStart = () =&gt; {
-                    <span class="missing-if-branch" title="else path not taken" >E</span>if (!isPlaying &amp;&amp; soundEnabled) togglePlay();
-                    <span class="missing-if-branch" title="if path not taken" >I</span>if (isMuted &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >soundEnabled) <span class="cstat-no" title="statement not covered" >t</span>oggleMute();</span>
-                    controller.resume();
-                    hasStartedRef.current = true;
-                  };
-&nbsp;
-                  resumeRef.current = handleStart;
-&nbsp;
-                  useImperativeHandle(ref, <span class="fstat-no" title="function not covered" >() =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
-                    start: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>esumeRef.current?.(),</span>
-                    restart: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >c</span>ontroller.restart()</span>
-                  }));
-&nbsp;
-                  React.useEffect(() =&gt; {
-                    onScoreChange?.(points);
-                  }, [points]);
-                  React.useEffect(() =&gt; {
-                    onLevelChange?.(level);
-                  }, [level]);
-                  React.useEffect(() =&gt; {
-                    <span class="missing-if-branch" title="if path not taken" >I</span>if (state === 'LOST') <span class="cstat-no" title="statement not covered" >onGameOver?.();</span>
-                  }, [state]);
-&nbsp;
-                  resumeRef.current = handleStart;
-&nbsp;
-                  React.useEffect(() =&gt; {
-                    const handleKeyDown = (e: KeyboardEvent) =&gt; {
-                      <span class="missing-if-branch" title="if path not taken" >I</span>if (e.key === 'Enter') {
-<span class="cstat-no" title="statement not covered" >                        if (state === 'PAUSED' &amp;&amp; hasStartedRef.current) {</span>
-<span class="cstat-no" title="statement not covered" >                          controller.resume();</span>
-<span class="cstat-no" title="statement not covered" >                        } else if (state === 'LOST' &amp;&amp; showModals) {</span>
-<span class="cstat-no" title="statement not covered" >                          controller.restart();</span>
-<span class="cstat-no" title="statement not covered" >                          hasStartedRef.current = false;</span>
-<span class="cstat-no" title="statement not covered" >                          if (!isPlaying &amp;&amp; soundEnabled) <span class="cstat-no" title="statement not covered" >togglePlay();</span></span>
-<span class="cstat-no" title="statement not covered" >                          if (isMuted &amp;&amp; soundEnabled) <span class="cstat-no" title="statement not covered" >toggleMute();</span></span>
-<span class="cstat-no" title="statement not covered" >                        } else if (</span>
-                          !hasStartedRef.current &amp;&amp;
-                          state === 'PAUSED' &amp;&amp;
-                          showModals
-                        ) {
-<span class="cstat-no" title="statement not covered" >                          handleStart();</span>
-                        }
-                      }
-&nbsp;
-                      <span class="missing-if-branch" title="if path not taken" >I</span>if (e.key.toLowerCase() === 'm') {
-<span class="cstat-no" title="statement not covered" >                        toggleMute();</span>
-                      }
+      &lt;&gt;
+        &lt;GlobalStyles /&gt;
+        &lt;OuterContainer&gt;
+          &lt;VerticallyCenterChildren&gt;
+            &lt;Container data-testid='tetris2-root'&gt;
+              {soundEnabled &amp;&amp; &lt;ThemeAudioButton /&gt;}
+              &lt;ErrorBoundary&gt;
+                &lt;Tetris credits={credits} manageCredits={manageCredits}&gt;
+                  {({
+                    Gameboard,
+                    HeldPiece,
+                    PieceQueue,
+                    controller,
+                    points,
+                    linesCleared,
+                    state,
+                    level,
+                    credits
+                  }) =&gt; {
+                    const handleStart = () =&gt; {
+                      <span class="missing-if-branch" title="else path not taken" >E</span>if (!isPlaying &amp;&amp; soundEnabled) togglePlay();
+                      <span class="missing-if-branch" title="if path not taken" >I</span>if (isMuted &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >soundEnabled) <span class="cstat-no" title="statement not covered" >t</span>oggleMute();</span>
+                      controller.resume();
+                      hasStartedRef.current = true;
                     };
 &nbsp;
-                    window.addEventListener('keydown', handleKeyDown);
-                    return () =&gt;
-                      window.removeEventListener('keydown', handleKeyDown);
-                  }, [state, controller, soundEnabled, isMuted, isPlaying]);
+                    resumeRef.current = handleStart;
 &nbsp;
-                  return (
-                    &lt;&gt;
-                      &lt;FlexWrapper
-                        style={{ opacity: state === 'PLAYING' ? 1 : 0.5 }}
-                      &gt;
-                        &lt;SidebarLeft&gt;
-                          &lt;ScorePanel
-                            credits={credits}
-                            points={points}
-                            linesCleared={linesCleared}
-                            level={level}
-                          /&gt;
-                          &lt;LabeledPanel&gt;
-                            &lt;h1&gt;HOLD&lt;/h1&gt;
-                            &lt;HeldPiece /&gt;
-                          &lt;/LabeledPanel&gt;
-                        &lt;/SidebarLeft&gt;
-                        &lt;GameboardWrapper&gt;
-                          &lt;Gameboard /&gt;
-                        &lt;/GameboardWrapper&gt;
-                        &lt;Sidebar&gt;
-                          &lt;LabeledPanel&gt;
-                            &lt;h1&gt;NEXT&lt;/h1&gt;
-                            &lt;PieceQueue /&gt;
-                          &lt;/LabeledPanel&gt;
-                        &lt;/Sidebar&gt;
-                      &lt;/FlexWrapper&gt;
-                      {showControlsLegend &amp;&amp; (
-                        &lt;ControlsLegend&gt;
-                          &lt;ControlsPanel /&gt;
-                        &lt;/ControlsLegend&gt;
-                      )}
+                    useImperativeHandle(ref, <span class="fstat-no" title="function not covered" >() =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+                      start: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>esumeRef.current?.(),</span>
+                      restart: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >c</span>ontroller.restart()</span>
+                    }));
 &nbsp;
-                      {showModals &amp;&amp;
-                        state === 'PAUSED' &amp;&amp;
-                        (hasStartedRef.current ? (
-                          &lt;Popup&gt;
-                            &lt;Alert&gt;Paused&lt;/Alert&gt;+{' '}
-                            &lt;Button
-                              data-testid='resume-btn'
-                              onClick={controller.resume}
+                    React.useEffect(() =&gt; {
+                      onScoreChange?.(points);
+                    }, [points]);
+                    React.useEffect(() =&gt; {
+                      onLevelChange?.(level);
+                    }, [level]);
+                    React.useEffect(() =&gt; {
+                      <span class="missing-if-branch" title="if path not taken" >I</span>if (state === 'LOST') <span class="cstat-no" title="statement not covered" >onGameOver?.();</span>
+                    }, [state]);
+&nbsp;
+                    resumeRef.current = handleStart;
+&nbsp;
+                    React.useEffect(() =&gt; {
+                      const handleKeyDown = (e: KeyboardEvent) =&gt; {
+                        <span class="missing-if-branch" title="if path not taken" >I</span>if (e.key === 'Enter') {
+<span class="cstat-no" title="statement not covered" >                          if (state === 'PAUSED' &amp;&amp; hasStartedRef.current) {</span>
+<span class="cstat-no" title="statement not covered" >                            controller.resume();</span>
+<span class="cstat-no" title="statement not covered" >                          } else if (state === 'LOST' &amp;&amp; showModals) {</span>
+<span class="cstat-no" title="statement not covered" >                            controller.restart();</span>
+<span class="cstat-no" title="statement not covered" >                            hasStartedRef.current = false;</span>
+<span class="cstat-no" title="statement not covered" >                            if (!isPlaying &amp;&amp; soundEnabled) <span class="cstat-no" title="statement not covered" >togglePlay();</span></span>
+<span class="cstat-no" title="statement not covered" >                            if (isMuted &amp;&amp; soundEnabled) <span class="cstat-no" title="statement not covered" >toggleMute();</span></span>
+<span class="cstat-no" title="statement not covered" >                          } else if (</span>
+                            !hasStartedRef.current &amp;&amp;
+                            state === 'PAUSED' &amp;&amp;
+                            showModals
+                          ) {
+<span class="cstat-no" title="statement not covered" >                            handleStart();</span>
+                          }
+                        }
+&nbsp;
+                        <span class="missing-if-branch" title="if path not taken" >I</span>if (e.key.toLowerCase() === 'm') {
+<span class="cstat-no" title="statement not covered" >                          toggleMute();</span>
+                        }
+                      };
+&nbsp;
+                      window.addEventListener('keydown', handleKeyDown);
+                      return () =&gt;
+                        window.removeEventListener('keydown', handleKeyDown);
+                    }, [state, controller, soundEnabled, isMuted, isPlaying]);
+&nbsp;
+                    return (
+                      &lt;&gt;
+                        &lt;FlexWrapper
+                          style={{ opacity: state === 'PLAYING' ? 1 : 0.5 }}
+                        &gt;
+                          &lt;SidebarLeft&gt;
+                            &lt;ScorePanel
+                              credits={credits}
+                              points={points}
+                              linesCleared={linesCleared}
+                              level={level}
+                            /&gt;
+                            &lt;LabeledPanel&gt;
+                              &lt;h1&gt;HOLD&lt;/h1&gt;
+                              &lt;HeldPiece /&gt;
+                            &lt;/LabeledPanel&gt;
+                          &lt;/SidebarLeft&gt;
+                          &lt;GameboardWrapper&gt;
+                            &lt;Gameboard /&gt;
+                          &lt;/GameboardWrapper&gt;
+                          &lt;Sidebar&gt;
+                            &lt;LabeledPanel&gt;
+                              &lt;h1&gt;NEXT&lt;/h1&gt;
+                              &lt;PieceQueue /&gt;
+                            &lt;/LabeledPanel&gt;
+                          &lt;/Sidebar&gt;
+                        &lt;/FlexWrapper&gt;
+                        {showControlsLegend &amp;&amp; (
+                          &lt;ControlsLegend&gt;
+                            &lt;ControlsPanel /&gt;
+                          &lt;/ControlsLegend&gt;
+                        )}
+&nbsp;
+                        {showModals &amp;&amp;
+                          state === 'PAUSED' &amp;&amp;
+                          (hasStartedRef.current ? (
+                            &lt;Popup&gt;
+                              &lt;Alert&gt;Paused&lt;/Alert&gt;{' '}
+                              &lt;Button
+                                data-testid='resume-btn'
+                                onClick={controller.resume}
+                              &gt;
+                                Resume
+                              &lt;/Button&gt;
+                            &lt;/Popup&gt;
+                          ) : (
+                            &lt;PopupStart&gt;
+                              &lt;Alert&gt;Start Game&lt;/Alert&gt;{' '}
+                              &lt;Button
+                                data-testid='start-btn'
+                                onClick={handleStart}
+                              &gt;
+                                Play
+                              &lt;/Button&gt;
+                            &lt;/PopupStart&gt;
+                          ))}
+&nbsp;
+                        {showModals &amp;&amp; state === 'LOST' &amp;&amp; (
+<span class="branch-2 cbranch-no" title="branch not covered" >                          &lt;PopupGameOver data-testid='popup-gameover'&gt;</span>
+                            &lt;Alert&gt;Game Over&lt;/Alert&gt;
+                            &lt;div
+                              style={{
+                                marginTop: '1rem',
+                                textAlign: 'left',
+                                fontSize: 'clamp(14px, 2vw, 26px)',
+                                color: '#ddd'
+                              }}
                             &gt;
-                              Resume
-                            &lt;/Button&gt;
-                          &lt;/Popup&gt;
-                        ) : (
-                          &lt;PopupStart&gt;
-                            &lt;Alert&gt;Start Game&lt;/Alert&gt;+{' '}
+                              &lt;p&gt;
+                                &lt;strong&gt;Level:&lt;/strong&gt; {level}
+                              &lt;/p&gt;
+                              &lt;p&gt;
+                                &lt;strong&gt;Lines:&lt;/strong&gt; {linesCleared}
+                              &lt;/p&gt;
+                              &lt;p&gt;
+                                &lt;strong&gt;Points:&lt;/strong&gt; {points}
+                              &lt;/p&gt;
+                            &lt;/div&gt;
+&nbsp;
                             &lt;Button
-                              data-testid='start-btn'
-                              onClick={handleStart}
+                              data-testid='restart-btn'
+                              onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                                controller.restart();</span>
+<span class="cstat-no" title="statement not covered" >                                hasStartedRef.current = false;</span>
+<span class="cstat-no" title="statement not covered" >                                if (!isPlaying &amp;&amp; soundEnabled) <span class="cstat-no" title="statement not covered" >togglePlay();</span></span>
+<span class="cstat-no" title="statement not covered" >                                if (isMuted &amp;&amp; soundEnabled) <span class="cstat-no" title="statement not covered" >toggleMute();</span></span>
+                              }}
                             &gt;
-                              Play
+                              Restart
                             &lt;/Button&gt;
-                          &lt;/PopupStart&gt;
-                        ))}
-&nbsp;
-                      {showModals &amp;&amp; state === 'LOST' &amp;&amp; (
-<span class="branch-2 cbranch-no" title="branch not covered" >                        &lt;PopupGameOver data-testid='popup-gameover'&gt;</span>
-                          &lt;Alert&gt;Game Over&lt;/Alert&gt;
-                          &lt;div
-                            style={{
-                              marginTop: '1rem',
-                              textAlign: 'left',
-                              fontSize: 'clamp(14px, 2vw, 26px)',
-                              color: '#ddd'
-                            }}
-                          &gt;
-                            &lt;p&gt;
-                              &lt;strong&gt;Level:&lt;/strong&gt; {level}
-                            &lt;/p&gt;
-                            &lt;p&gt;
-                              &lt;strong&gt;Lines:&lt;/strong&gt; {linesCleared}
-                            &lt;/p&gt;
-                            &lt;p&gt;
-                              &lt;strong&gt;Points:&lt;/strong&gt; {points}
-                            &lt;/p&gt;
-                          &lt;/div&gt;
-&nbsp;
-                          &lt;Button
-                            data-testid='restart-btn'
-                            onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                              controller.restart();</span>
-<span class="cstat-no" title="statement not covered" >                              hasStartedRef.current = false;</span>
-<span class="cstat-no" title="statement not covered" >                              if (!isPlaying &amp;&amp; soundEnabled) <span class="cstat-no" title="statement not covered" >togglePlay();</span></span>
-<span class="cstat-no" title="statement not covered" >                              if (isMuted &amp;&amp; soundEnabled) <span class="cstat-no" title="statement not covered" >toggleMute();</span></span>
-                            }}
-                          &gt;
-                            Restart
-                          &lt;/Button&gt;
-                        &lt;/PopupGameOver&gt;
-                      )}
-                    &lt;/&gt;
-                  );
-                }}
-              &lt;/Tetris&gt;
-            &lt;/ErrorBoundary&gt;
-          &lt;/Container&gt;
-        &lt;/VerticallyCenterChildren&gt;
-      &lt;/OuterContainer&gt;
+                          &lt;/PopupGameOver&gt;
+                        )}
+                      &lt;/&gt;
+                    );
+                  }}
+                &lt;/Tetris&gt;
+              &lt;/ErrorBoundary&gt;
+            &lt;/Container&gt;
+          &lt;/VerticallyCenterChildren&gt;
+        &lt;/OuterContainer&gt;
+      &lt;/&gt;
     );
   }
 );
@@ -778,7 +790,7 @@ export default Tetris2;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-19T23:23:08.394Z
+                at 2025-05-19T23:45:44.722Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
