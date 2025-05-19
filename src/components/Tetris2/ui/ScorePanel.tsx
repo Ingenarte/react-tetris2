@@ -1,6 +1,7 @@
 // ui/ScorePanel.tsx
 import React from 'react';
 import styled from 'styled-components';
+
 import Digits from './Digits';
 import Divider from './Divider';
 

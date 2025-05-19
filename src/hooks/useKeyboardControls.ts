@@ -1,6 +1,7 @@
 // src/hooks/useKeyboardControls.ts
 import React from 'react';
 import keymaster from 'keymaster';
+
 import DetectShift from '../modules/detect-shift';
 import { Action } from '../models/Game';
 

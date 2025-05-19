@@ -1,4 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/react';
+
 import {
   OuterContainer,
   VerticallyCenterChildren,
@@ -14,7 +15,7 @@ import {
 
 export default {
   title: 'Layout/Wrappers',
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen' }
 } as Meta;
 
 export const OuterContainerStory: StoryFn = () => (

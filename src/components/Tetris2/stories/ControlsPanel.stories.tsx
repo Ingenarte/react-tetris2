@@ -1,6 +1,7 @@
 // src/components/stories/ControlsPanel.stories.tsx
 
 import type { Meta, StoryObj } from '@storybook/react';
+
 import ControlsPanel from '../ui/ControlsPanel';
 
 const meta: Meta<typeof ControlsPanel> = {

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import GamePanel from './components/tetris2/GamePanel/GamePanel';
 
 const Container = styled.div`

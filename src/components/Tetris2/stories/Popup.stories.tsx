@@ -1,10 +1,11 @@
 import type { Meta, StoryFn } from '@storybook/react';
+
 import { Popup, PopupStart, PopupGameOver } from '../ui/Popup';
 import Button from '../ui/Button';
 
 export default {
   title: 'UI/Popup',
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'centered' }
 } as Meta;
 
 const Content = () => (
@@ -14,7 +15,11 @@ const Content = () => (
   </div>
 );
 
-export const DefaultPopup: StoryFn = () => <Popup><Content /></Popup>;
+export const DefaultPopup: StoryFn = () => (
+  <Popup>
+    <Content />
+  </Popup>
+);
 
 export const StartPopup: StoryFn = () => (
   <PopupStart>

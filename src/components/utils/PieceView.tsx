@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { ActivePiece, getBlocks, getClassName } from '../../models/Piece';
 import './styles.css';
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import { useThemeAudio } from './audio/useThemeAudio';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
+
+import { useThemeAudio } from './audio/useThemeAudio';
 
 const Wrapper = styled.div`
   position: absolute;

@@ -1,4 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/react';
+
 import ScorePanel from '../ui/ScorePanel';
 
 export default {
@@ -9,7 +10,7 @@ export default {
     points: { control: 'number' },
     linesCleared: { control: 'number' },
     level: { control: 'number' }
-  },
+  }
 } as Meta<typeof ScorePanel>;
 
 const Template: StoryFn<typeof ScorePanel> = (args) => <ScorePanel {...args} />;
