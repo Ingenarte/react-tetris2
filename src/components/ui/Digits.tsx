@@ -17,7 +17,7 @@ import styled from 'styled-components';
  *
  * @example
  * ```tsx
- * <Digits>5</Digits>        // “0005”
+ * <Digits>5</Digits>           // “0005”
  * <Digits count={2}>12</Digits> // “12”
  * <Digits count={6}>42</Digits> // “000042”
  * ```
@@ -33,13 +33,23 @@ const Digit = styled.span`
   display: inline-block;
 `;
 
-const Digits: React.FC<{ children: number; count?: number }> = ({
-  children,
-  count = 4
-}) => {
+interface DigitsProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Value to display */
+  children: number;
+  /** Total digits to pad to (default = 4) */
+  count?: number;
+}
+
+/**
+ * Zero-pads a number and renders it inside a monospace `<span>`.
+ * All extra props (e.g. `data-testid`, `className`, `style`) are forwarded
+ * to the underlying element so external code and tests can target it.
+ */
+const Digits: React.FC<DigitsProps> = ({ children, count = 4, ...rest }) => {
   let txt = children.toString();
   while (txt.length < count) txt = `0${txt}`;
-  return <Digit>{txt}</Digit>;
+
+  return <Digit {...rest}>{txt}</Digit>;
 };
 
 export default Digits;

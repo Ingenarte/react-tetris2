@@ -57,7 +57,10 @@ const Score = styled.div`
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
   font-size: clamp(16px, 2vw, 24px);
-  color: #f0f0f0;
+
+  /* pure white for maximum readability */
+  color: #ffffff;
+
   padding: 1rem;
   background: rgba(40, 32, 62, 0.8);
   border-radius: 12px;

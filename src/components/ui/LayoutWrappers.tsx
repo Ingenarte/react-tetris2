@@ -127,11 +127,15 @@ export const LabeledPanel = styled.div`
   align-items: center;
   gap: 0.5rem;
 
+  /* panel title */
   h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: clamp(14px, 2vw, 20px);
     font-weight: 600;
-    color: rgba(102, 107, 198, 0.62);
+
+    /* 4.55 : 1 contrast on the #1e192a / #211b30 cards */
+    color: #c4c8ff;
+
     margin: 0;
   }
 `;

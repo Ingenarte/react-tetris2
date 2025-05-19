@@ -26,7 +26,8 @@ const Label = styled.p`
   font-size: clamp(14px, 2vw, 18px);
   font-weight: 600;
   text-transform: uppercase;
-  color: #aaa;
+
+  color: #e2e4ff;
 `;
 
 const StatRow = styled.div`
