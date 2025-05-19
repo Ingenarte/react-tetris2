@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Tetris2, Tetris2Handle } from './components/tetris2/Tetris2';
 import { PopupStart, PopupGameOver } from './components/ui/Popup';
 import Button from './components/ui/Button';
+import { GlobalStyles } from './components/utils/GlobalStyles';
 
 const App = (): React.JSX.Element => {
   const tetrisRef = useRef<Tetris2Handle>(null);
@@ -48,6 +49,8 @@ const App = (): React.JSX.Element => {
 
   return (
     <>
+      <GlobalStyles />
+
       <Tetris2
         ref={tetrisRef}
         credits={5555}

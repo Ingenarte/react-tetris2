@@ -1,10 +1,11 @@
-// HeldPiece.tsx
 import React from 'react';
-
 import { Context } from '../../context';
-import PieceView from './PieceView';
 import type { ActivePiece } from '../../models/Piece';
+import PieceView from './PieceView';
 
+/**
+ * Shows the held piece (or empty 4×4) above the gameboard.
+ */
 export default function HeldPiece(): JSX.Element {
   const { heldPiece } = React.useContext(Context);
 

@@ -1,44 +1,64 @@
-import React from 'react';
+// src/components/utils/GameboardView.tsx
+import { useContext } from 'react';
 
-import './styles.css';
+import styled from 'styled-components';
 import { Context } from '../../context';
 import { viewMatrix } from '../../models/Game';
 import { getClassName } from '../../models/Piece';
+import { GameBlock } from './GameBlock';
+
+const Board = styled.div`
+  display: grid;
+`;
 
 export default function GameboardView(): JSX.Element {
-  const game = React.useContext(Context);
+  const game = useContext(Context);
   const matrix = viewMatrix(game);
-  const justCleared = game.justCleared ?? []; // <-- líneas recientemente eliminadas
+  const justCleared = game.justCleared ?? [];
+
+  // Compute grid dimensions
+  const columns = matrix[0]?.length ?? 0;
+  const rows = matrix.length;
 
   return (
-    <div
-      className='game-board'
+    <Board
       style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(${matrix[0]!.length}, var(--block-size))`, // ! because matrix is fixed-size
-        gridTemplateRows: `repeat(${matrix.length}, var(--block-size))`
+        gridTemplateColumns: `repeat(${columns}, var(--block-size))`,
+        gridTemplateRows: `repeat(${rows}, var(--block-size))`
       }}
     >
-      {matrix.flatMap((row, i) =>
-        row.map((block, j) => {
-          let classString = 'game-block';
+      {matrix.flatMap((row, y) =>
+        row.map((cell, x) => {
+          const isClearing = justCleared.includes(y);
 
-          if (!block) {
-            classString += ' block-empty';
-          } else if (block === 'ghost') {
-            classString += ' ghost';
-          } else {
-            classString += ` ${getClassName(block)}`;
+          // Empty cell
+          if (cell === null) {
+            return <GameBlock key={`${y}-${x}`} clearing={isClearing} />;
           }
 
-          // 👇 Animación para líneas limpiadas
-          if (justCleared.includes(i)) {
-            classString += ' cleared-line';
+          // Ghost preview cell
+          if (cell === 'ghost') {
+            return (
+              <GameBlock
+                key={`${y}-${x}`}
+                ghost
+                clearing={isClearing}
+                className='ghost'
+              />
+            );
           }
 
-          return <div key={`${i}-${j}`} className={classString} />;
+          // Real tetromino cell: look up its CSS class (e.g. "piece-i")
+          const pieceClass = getClassName(cell);
+          return (
+            <GameBlock
+              key={`${y}-${x}`}
+              className={pieceClass}
+              clearing={isClearing}
+            />
+          );
         })
       )}
-    </div>
+    </Board>
   );
 }
