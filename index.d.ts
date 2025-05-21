@@ -1,37 +1,29 @@
-// index.d.ts
-
 import React from 'react';
 
 export interface Tetris2Props {
-  /** Width of the playfield in blocks (default: 10) */
-  columns?: number;
-  /** Height of the playfield in blocks (default: 20) */
-  rows?: number;
-  /** Starting level (0–level∞) */
-  initialLevel?: number;
-  /** Starting credits (lives) */
-  initialCredits?: number;
-  /** Callback when lines are cleared */
-  onLineCleared?: (linesCleared: number) => void;
-  /** Callback when points change */
-  onPointsChanged?: (points: number) => void;
-  /** Callback when the game is over */
+  /** Initial credit count */
+  credits?: number;
+  /** Whether to deduct credits when starting */
+  manageCredits?: boolean;
+  /** Show/hide pause/start/game over popups */
+  showModals?: boolean;
+  /** Enable or disable audio */
+  soundEnabled?: boolean;
+  /** Show keyboard controls legend */
+  showControlsLegend?: boolean;
+  /** Called when the game ends */
   onGameOver?: () => void;
-  /** Disable keyboard controls (useful for mobile) */
-  disableKeyboard?: boolean;
-  /** CSS class name to apply to the root container */
-  className?: string;
-  /** Inline styles for the root container */
-  style?: React.CSSProperties;
+  /** Called when the score changes */
+  onScoreChange?: (score: number) => void;
+  /** Called when the level changes */
+  onLevelChange?: (level: number) => void;
 }
 
 export interface Tetris2Handle {
   /** Start or resume the game */
   start: () => void;
-  /** Pause the game */
-  pause: () => void;
-  /** Reset to initial state */
-  reset: () => void;
+  /** Restart the game from level 0 */
+  restart: () => void;
 }
 
 declare const Tetris2: React.ForwardRefExoticComponent<

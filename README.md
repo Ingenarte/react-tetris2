@@ -1,52 +1,70 @@
 # react‑tetris2
 
 [![npm version](https://img.shields.io/npm/v/react-tetris2?color=crimson&logo=npm)](https://www.npmjs.com/package/react-tetris2)
-[![CI](https://github.com/INGENARTE/react-tetris2/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/react-tetris2/actions)
+[![CI](https://github.com/INGENARTE/react-tetris2/actions/workflows/ci.yml/badge.svg)](https://github.com/INGENARTE/react-tetris2/actions/workflows/ci.yml)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/react-tetris2)](https://bundlephobia.com/package/react-tetris2)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
 
-> **react‑tetris2** – A fully‑typed, accessible Tetris component & hook for **React 18+** built with TypeScript.
+> **react‑tetris2** – A fully‑typed, accessible Tetris component for **React 18+**, built with TypeScript.
 
 ## ✨ Features
 
-- **Strict TypeScript 5** – Public API is 100 % typed.
-- **Headless or UI** – Use the `useTetris()` hook or the `<Tetris2 />` component.
-- **Accessible** – Keyboard‑only play, ARIA roles, and screen‑reader friendly scoring.
-- **Themeable** – Colors, fonts and audio via **styled‑components** (peer dependency).
-- **Lightweight** – Core < 7 kB gzipped (excluding audio).
-- **Imperative handle** – `start()`, `pause()`, `reset()` methods exposed via ref.
+- **Fully typed API** – Strictly typed props and methods with TypeScript 5.
+- **Modular architecture** – Use as a component with optional ref control.
+- **Keyboard controls** – Playable entirely via keyboard input.
+- **Imperative API** – Call `start()`, `restart()` via `ref` for external control.
 
 ## 🚀 Installation
 
 ```bash
 # npm
-npm i react-tetris2 styled-components
+npm i react-tetris2
 # pnpm
-pnpm add react-tetris2 styled-components
+pnpm add react-tetris2
 ```
 
-> **Note**: `styled-components` is listed as a **peerDependency**.  
-> Replace it with your own CSS system if preferred.
+> **Note:** `react` and `react-dom` are required as peer dependencies.  
+> Make sure your project includes them (React 18+ supported).
 
 ## 🤖 Quick start
+
+Use the component immediately after installation — no setup required:
+
+```tsx
+import React from 'react';
+import Tetris2 from 'react-tetris2';
+
+export default function App() {
+  return <Tetris2 />;
+}
+```
+
+## 🔧 Customized usage
+
+For advanced control and customization, use a `ref` and props:
 
 ```tsx
 import React, { useRef } from 'react';
 import Tetris2, { Tetris2Handle } from 'react-tetris2';
 
-export default function Demo() {
+export default function CustomTetris() {
   const game = useRef<Tetris2Handle>(null);
 
   return (
     <>
       <Tetris2
         ref={game}
-        rows={20}
-        columns={10}
-        onGameOver={() => alert('Game Over')}
+        credits={3}
+        manageCredits={true}
+        showModals={true}
+        soundEnabled={true}
+        showControlsLegend={true}
+        onGameOver={() => alert('Game Over!')}
+        onScoreChange={(score) => console.log('Score:', score)}
+        onLevelChange={(level) => console.log('Level:', level)}
       />
       <button onClick={() => game.current?.start()}>Start</button>
-      <button onClick={() => game.current?.pause()}>Pause</button>
+      <button onClick={() => game.current?.restart()}>Restart</button>
     </>
   );
 }
@@ -56,42 +74,95 @@ export default function Demo() {
 
 ### Props
 
-| Prop            | Type                      | Default        | Description                     |
-| --------------- | ------------------------- | -------------- | ------------------------------- |
-| `rows`          | `number`                  | `20`           | Board height in blocks          |
-| `columns`       | `number`                  | `10`           | Board width in blocks           |
-| `initialLevel`  | `number`                  | `0`            | Starting speed level            |
-| `autoStart`     | `boolean`                 | `false`        | Begin automatically on mount    |
-| `theme`         | `TetrisTheme`             | `classicTheme` | Colors, font & audio            |
-| `onLineCleared` | `(lines: number) => void` | —              | Callback when lines are cleared |
-| `onScoreChange` | `(score: number) => void` | —              | Callback on score update        |
-| `onGameOver`    | `() => void`              | —              | Callback when game ends         |
-| `className`     | `string`                  | —              | Root CSS class                  |
+| Prop                 | Type                      | Default | Description                           |
+| -------------------- | ------------------------- | ------- | ------------------------------------- |
+| `credits`            | `number`                  | —       | Number of available game credits      |
+| `manageCredits`      | `boolean`                 | `false` | Enable credit-based game start        |
+| `showModals`         | `boolean`                 | `true`  | Show start/pause/game over modals     |
+| `soundEnabled`       | `boolean`                 | `true`  | Enable background music               |
+| `showControlsLegend` | `boolean`                 | `true`  | Show control instructions below board |
+| `onGameOver`         | `() => void`              | —       | Callback when the player loses        |
+| `onScoreChange`      | `(score: number) => void` | —       | Callback when score updates           |
+| `onLevelChange`      | `(level: number) => void` | —       | Callback when level updates           |
 
 ### Imperative API
 
-| Method    | Description              |
-| --------- | ------------------------ |
-| `start()` | Start or resume the game |
-| `pause()` | Pause the current game   |
-| `reset()` | Reset state to initial   |
+| Method      | Description              |
+| ----------- | ------------------------ |
+| `start()`   | Start or resume the game |
+| `restart()` | Restart the game         |
 
 Consult `index.d.ts` for the full API surface.
 
-## 🎨 Theme & Audio
+## 🎵 Audio
 
-The default `classicTheme` ships with a string‑quartet arrangement of **“Korobeiniki (Tetris Theme)”** by **Gregor Quendel**, licensed under the [Pixabay License](https://pixabay.com/service/license/).  
-Swap the track by passing your own audio file in the `theme.audio` field.
+This component includes background music: a string-quartet arrangement of  
+**“Korobeiniki (Tetris Theme)”** by **Gregor Quendel**, licensed under the [Pixabay License](https://pixabay.com/service/license/).
 
 ## 🧪 Contributing
 
-1. `git clone` & `pnpm install`
-2. `pnpm dev` – Live playground
-3. `pnpm test` – Unit + E2E
-4. Open a pull request against `main`
+We welcome contributions! Follow the steps below to get started:
+
+1. **Clone the repository and install dependencies**
+
+   ```bash
+   git clone https://github.com/Ingenarte/react-tetris2.git
+   cd react-tetris2
+   pnpm install
+   ```
+
+2. **Start the local playground**
+
+   This will launch a development environment with hot reload:
+
+   ```bash
+   pnpm dev
+   ```
+
+3. **Run the full test suite (unit + E2E)**
+
+   Make sure your changes don't break anything:
+
+   ```bash
+   pnpm test       # or: pnpm fulltest
+   ```
+
+4. **Create a feature branch**
+
+   Avoid working directly on `master`:
+
+   ```bash
+   git checkout -b your-feature-name
+   ```
+
+5. **Commit and push your changes**
+
+   Follow Conventional Commits if possible:
+
+   ```bash
+   git commit -m "feat: add new animation for line clear"
+   git push origin your-feature-name
+   ```
+
+6. **Open a Pull Request**
+
+   Submit your PR against the `master` branch at:  
+   [https://github.com/Ingenarte/react-tetris2/pulls](https://github.com/Ingenarte/react-tetris2/pulls)
+
+---
+
+> 💡 Tip: You can also run Storybook locally with:
+>
+> ```bash
+> pnpm storybook
+> ```
+
+> 🛠️ Internal tools like `lint`, `typecheck`, and `build` are available via npm scripts.  
+> Always run `pnpm fulltest` before pushing.
 
 ## 🛣️ Roadmap (posible)
 
+- [ ] Enhanced accessibility (ARIA roles, focus trapping, high-contrast mode)
 - [ ] Multiplayer LAN
 - [ ] AI opponent
 - [ ] Replay export / import
