@@ -2,30 +2,35 @@
 node_modules/
 bower_components/
 
-# Source files (exclude if only dist is needed)
-src/
-public/
-lib/
-
-# Config and meta files
+# Editor and system files
 .idea/
 .vscode/
 .DS_Store
-*.bak
 *.log
-*storybook.log
+*.bak
 
-# Test, docs and reports
+# Build output
+dist/
+*.tsbuildinfo
+
+# Tests, coverage and reports
 coverage/
 .storybook/
 *.test.*
 *.spec.*
 tests/
+playwright-report/
+test-results/
+*.snap
+
+# Docs or static exports (optional)
 docs/
+storybook-static/
 
-# Build info
-*.tsbuildinfo
-
-# Old or duplicate package files
+# Old or backup package files
 package copy.json
 packageOLD1.json
+
+# Misc
+*.tgz
+*.zip
