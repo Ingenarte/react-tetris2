@@ -1,12 +1,13 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import GamePanel from '../../src/components/tetris2/GamePanel/GamePanel';
+
+import GamePanel from '../../src/components/tetris/GamePanel/GamePanel';
 
 /** ----------------------------------------------------------------
  *  Mock TetrisEngine *before* importing GamePanel
  *  ---------------------------------------------------------------- */
-vi.mock('../../src/components/Tetris2/TetrisEngine', async () => {
+vi.mock('../../src/components/tetris/TetrisEngine', async () => {
   const FakeEngine: React.FC<{
     children: (p: {
       Gameboard: React.FC;
@@ -21,9 +22,9 @@ vi.mock('../../src/components/Tetris2/TetrisEngine', async () => {
   }> = ({ children }) => (
     <>
       {children({
-        Gameboard: () => <div data-testid="gameboard" />,
-        HeldPiece: () => <div data-testid="held" />,
-        PieceQueue: () => <div data-testid="queue" />,
+        Gameboard: () => <div data-testid='gameboard' />,
+        HeldPiece: () => <div data-testid='held' />,
+        PieceQueue: () => <div data-testid='queue' />,
         points: 123,
         linesCleared: 4,
         state: 'PLAYING',

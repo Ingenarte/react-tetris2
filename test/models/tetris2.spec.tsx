@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
 
-import { Tetris2 } from '../../src/components/tetris2/Tetris2';
+import { Tetris2 } from '../../src/components/tetris/Tetris2';
 
 describe('<Tetris2>', () => {
   it('Play → Pause → Resume flow works', async () => {
