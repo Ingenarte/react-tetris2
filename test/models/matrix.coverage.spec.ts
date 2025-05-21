@@ -1,5 +1,6 @@
 // test/models/matrix.coverage.spec.ts
 import { describe, it, expect } from 'vitest';
+
 import {
   buildMatrix,
   moveDown,

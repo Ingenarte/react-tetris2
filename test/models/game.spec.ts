@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { init, update } from '../../src/models/Game';
 
 describe('Game reducer', () => {
