@@ -1,4 +1,4 @@
-import { Tetris2 } from './components/tetris/Tetris2';
+import { Tetris2 } from './components/tetris2/Tetris2';
 
 /**
  * Root application.

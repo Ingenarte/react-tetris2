@@ -2,12 +2,12 @@ import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import GamePanel from '../../src/components/tetris/GamePanel/GamePanel';
+import GamePanel from '../../src/components/tetris2/GamePanel/GamePanel';
 
 /** ----------------------------------------------------------------
  *  Mock TetrisEngine *before* importing GamePanel
  *  ---------------------------------------------------------------- */
-vi.mock('../../src/components/tetris/TetrisEngine', async () => {
+vi.mock('../../src/components/tetris2/TetrisEngine', async () => {
   const FakeEngine: React.FC<{
     children: (p: {
       Gameboard: React.FC;
