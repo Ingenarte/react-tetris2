@@ -6,31 +6,37 @@ bower_components/
 .idea/
 .vscode/
 .DS_Store
+Thumbs.db
+
+# Log files and temporary files
 *.log
 *.bak
+npm-debug.log*
 
 # Build output
 dist/
 *.tsbuildinfo
 
-# Tests, coverage and reports
+# Test output and coverage
 coverage/
-.storybook/
-*.test.*
-*.spec.*
-tests/
 playwright-report/
 test-results/
 *.snap
 
-# Docs or static exports (optional)
-docs/
+# Static exports
 storybook-static/
+
+# Docs and generated stories
+docs/
+.storybook/
+stories/
+*.stories.*
+*.story.*
 
 # Old or backup package files
 package copy.json
 packageOLD1.json
 
-# Misc
-*.tgz
-*.zip
+# CI/CD configs (optional if not needed in repo)
+# .github/
+# .gitlab/

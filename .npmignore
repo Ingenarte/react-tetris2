@@ -1,0 +1,35 @@
+# Ignore source files and test code
+src/
+tests/
+test/
+__tests__/
+*.spec.*
+*.test.*
+.storybook/
+docs/
+playwright-report/
+test-results/
+*.snap
+
+# Ignore storybook artifacts
+stories/
+*.stories.*
+*.story.*
+storybook-static/
+
+# Ignore CI/CD metadata
+.github/
+.gitlab/
+
+# Ignore config and editor files
+.vscode/
+.idea/
+*.tsbuildinfo
+*.log
+*.bak
+.DS_Store
+Thumbs.db
+
+# Ignore local backup files
+package copy.json
+packageOLD1.json
