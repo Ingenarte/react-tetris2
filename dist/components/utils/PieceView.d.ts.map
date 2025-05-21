@@ -1,0 +1,1 @@
+{"version":3,"file":"PieceView.d.ts","sourceRoot":"","sources":["../../../src/components/utils/PieceView.tsx"],"names":[],"mappings":"AACA,OAAO,KAAK,MAAM,OAAO,CAAC;AAG1B,OAAO,EAAE,WAAW,EAA2B,MAAM,oBAAoB,CAAC;AAU1E;;;GAGG;AACH,UAAU,cAAc;IACtB,mEAAmE;IACnE,KAAK,CAAC,EAAE,WAAW,CAAC;CACrB;AAED,QAAA,MAAM,SAAS,EAAE,KAAK,CAAC,EAAE,CAAC,cAAc,CAgDvC,CAAC;AAEF,eAAe,SAAS,CAAC"}

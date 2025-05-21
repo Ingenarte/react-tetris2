@@ -1,11 +1,31 @@
-.DS_Store
-.idea/
+# Node modules and dependencies
 node_modules/
 bower_components/
-dist/
-*.log
+
+# Source files (exclude if only dist is needed)
+src/
+public/
 lib/
 
-
+# Config and meta files
+.idea/
+.vscode/
+.DS_Store
+*.bak
+*.log
 *storybook.log
+
+# Test, docs and reports
 coverage/
+.storybook/
+*.test.*
+*.spec.*
+tests/
+docs/
+
+# Build info
+*.tsbuildinfo
+
+# Old or duplicate package files
+package copy.json
+packageOLD1.json

@@ -18,7 +18,7 @@ export default defineConfig({
     /* ----------------------------------------------------------------
      * Exclude Playwright E2E files so Vitest only runs unit/integration
      * ---------------------------------------------------------------- */
-    exclude: ['playground/e2e/**', '**/*.e2e.*', 'node_modules/**'],
+    exclude: ['test/playground/e2e/**', '**/*.e2e.*', 'node_modules/**'],
 
     /* ------------------------ Code-coverage ------------------------- */
     coverage: {
@@ -30,7 +30,7 @@ export default defineConfig({
       exclude: [
         'src/**/__tests__/**',
         'src/**/stories/**',
-        'playground/e2e/**',
+        'test/playground/e2e/**',
         '**/*.e2e.*'
       ],
 
