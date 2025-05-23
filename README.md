@@ -1,6 +1,9 @@
 # react‑tetris2
 
 [![npm version](https://img.shields.io/npm/v/react-tetris2?color=crimson&logo=npm)](https://www.npmjs.com/package/react-tetris2)
+[![CI](https://github.com/INGENARTE/react-tetris2/actions/workflows/ci.yml/badge.svg)](https://github.com/INGENARTE/react-tetris2/actions/workflows/ci.yml)
+[![Unit Tests](https://github.com/INGENARTE/react-tetris2/actions/workflows/unit.yml/badge.svg)](https://github.com/INGENARTE/react-tetris2/actions/workflows/unit.yml)
+[![E2E Tests](https://github.com/INGENARTE/react-tetris2/actions/workflows/e2e.yml/badge.svg)](https://github.com/INGENARTE/react-tetris2/actions/workflows/e2e.yml)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/react-tetris2)](https://bundlephobia.com/package/react-tetris2)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
 
@@ -126,7 +129,7 @@ We welcome contributions! Follow the steps below to get started:
    ```bash
    git clone https://github.com/Ingenarte/react-tetris2.git
    cd react-tetris2
-   pnpm install
+   npm install
    ```
 
 2. **Start the local playground**
@@ -134,7 +137,7 @@ We welcome contributions! Follow the steps below to get started:
    This will launch a development environment with hot reload:
 
    ```bash
-   pnpm dev
+   npm dev
    ```
 
 3. **Run the full test suite (unit + E2E)**
@@ -142,7 +145,7 @@ We welcome contributions! Follow the steps below to get started:
    Make sure your changes don't break anything:
 
    ```bash
-   pnpm test       # or: pnpm fulltest
+   npm test       # or: npm fulltest
    ```
 
 4. **Create a feature branch**
@@ -172,11 +175,11 @@ We welcome contributions! Follow the steps below to get started:
 > 💡 Tip: You can also run Storybook locally with:
 >
 > ```bash
-> pnpm storybook
+> npm run storybook
 > ```
 
 > 🛠️ Internal tools like `lint`, `typecheck`, and `build` are available via npm scripts.  
-> Always run `pnpm fulltest` before pushing.
+> Always run `npm fulltest` before pushing.
 
 ## 🛣️ Roadmap (posible)
 
