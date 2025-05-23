@@ -1,25 +1,29 @@
 {
   "name": "react-tetris2",
   "version": "0.1.0",
-  "_originalWork": {
-    "author": "Matthew Brandly",
-    "repo": "https://github.com/brandly/react-tetris",
-    "version": "0.4.0"
-  },
   "type": "module",
   "description": "A configurable and type-safe Tetris game for React apps, playable via keyboard and built in TypeScript",
   "engines": {
     "node": ">=20.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ingenarte/react-tetris2.git"
+  },
+  "homepage": "https://ingenarte.github.io/react-tetris2/",
+  "license": "MIT",
+  "author": {
+    "name": "Ingenarte",
+    "url": "https://github.com/Ingenarte"
+  },
+  "_originalWork": {
+    "author": "Matthew Brandly",
+    "repo": "https://github.com/brandly/react-tetris",
+    "version": "0.4.0"
+  },
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs.js"
-    }
-  },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
@@ -44,16 +48,6 @@
     "block-game"
   ],
   "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Ingenarte/react-tetris2.git"
-  },
-  "homepage": "https://ingenarte.github.io/react-tetris2/",
-  "license": "MIT",
-  "author": {
-    "name": "Ingenarte",
-    "url": "https://github.com/Ingenarte"
-  },
   "bugs": {
     "url": "https://github.com/Ingenarte/react-tetris2/issues"
   },
@@ -64,7 +58,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run clean && tsc --build tsconfig.build.json",
+    "build": "npm run clean && vite build",
     "buildvite": "vite build",
     "clean": "rimraf dist",
     "test:unit": "vitest run",
@@ -141,8 +135,9 @@
     "react-dom": "^18.0.0 || ^19.1.0"
   },
   "dependencies": {
-    "styled-components": "^5.3.11",
+    "keymaster": "1.6.2",
     "react-icons": "^5.5.0",
-    "keymaster": "1.6.2"
+    "react-tetris2": "file:react-tetris2-0.1.0.tgz",
+    "styled-components": "^5.3.11"
   }
 }

@@ -1,6 +1,8 @@
 // src/hooks/useThemeAudio.ts
 import { useEffect, useState, useCallback } from 'react';
 
+import tetrisMp3 from '../../assets/tetris.mp3';
+
 export type ThemeAudioControls = {
   isPlaying: boolean;
   isMuted: boolean;
@@ -9,7 +11,7 @@ export type ThemeAudioControls = {
 };
 
 /* ─────────── shared singleton audio ─────────── */
-const audio = new Audio('/audio/tetris.mp3');
+const audio = new Audio(tetrisMp3);
 audio.loop = true;
 audio.volume = 0.8;
 

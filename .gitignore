@@ -14,8 +14,9 @@ Thumbs.db
 npm-debug.log*
 
 # Build output
-# dist/ //testing
+ dist/ 
 *.tsbuildinfo
+*.tgz
 
 # Test output and coverage
 coverage/

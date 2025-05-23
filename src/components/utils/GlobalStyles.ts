@@ -2,8 +2,35 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
+
+ /* —————————————————————————————
+     Local Font: Montserrat
+  ————————————————————————————— */
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('/src/assets/fonts/montserrat/Montserrat-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('/src/assets/fonts/montserrat/Montserrat-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('/src/assets/fonts/montserrat/Montserrat-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
   /* —————————————————————————————
-     Variables & resets from tetris.css
+     Variables & resets 
   ————————————————————————————— */
   :root {
     --block-size: clamp(14px, 4vw, 28px);

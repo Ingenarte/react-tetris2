@@ -14,5 +14,6 @@ interface Props {
     onLevelChange?: (level: number) => void;
 }
 export declare const Tetris2: React.ForwardRefExoticComponent<Props & React.RefAttributes<Tetris2Handle>>;
+export type { Props as Tetris2Props };
 export default Tetris2;
 //# sourceMappingURL=Tetris2.d.ts.map
