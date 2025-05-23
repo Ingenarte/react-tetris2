@@ -19,6 +19,7 @@ import styled from 'styled-components';
  */
 
 export const Popup = styled.div`
+  font-family: 'Montserrat', sans-serif;
   position: absolute;
   top: 50%;
   left: 50%;

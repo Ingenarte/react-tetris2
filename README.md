@@ -5,7 +5,7 @@
 [![bundle size](https://img.shields.io/bundlephobia/minzip/react-tetris2)](https://bundlephobia.com/package/react-tetris2)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
 
-> **react‑tetris2** – A fully‑typed, accessible Tetris component for **React 18+**, built with TypeScript.
+> **react‑tetris2** – Plug-and-play `<Tetris2/>` component for **React 18+**, built with TypeScript.
 
 ## ✨ Features
 
@@ -28,15 +28,24 @@ pnpm add react-tetris2
 
 ## 🤖 Quick start
 
-Use the component immediately after installation — no setup required:
+Use the component right after installation — no additional setup required.
+
+### Example: `main.tsx` (Vite)
+
+> 💡 Make sure to **comment out global CSS imports** (e.g., `index.css`) to avoid style conflicts.
 
 ```tsx
-import React from 'react';
+// src/main.tsx
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import Tetris2 from 'react-tetris2';
+// import './index.css'; // optional: comment this out to avoid conflicts
 
-export default function App() {
-  return <Tetris2 />;
-}
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <Tetris2 />
+  </StrictMode>
+);
 ```
 
 ## 🔧 Customized usage
@@ -44,10 +53,12 @@ export default function App() {
 For advanced control and customization, use a `ref` and props:
 
 ```tsx
-import React, { useRef } from 'react';
+// src/main.tsx
+import React, { StrictMode, useRef } from 'react';
+import { createRoot } from 'react-dom/client';
 import Tetris2, { Tetris2Handle } from 'react-tetris2';
 
-export default function CustomTetris() {
+function App() {
   const game = useRef<Tetris2Handle>(null);
 
   return (
@@ -63,11 +74,19 @@ export default function CustomTetris() {
         onScoreChange={(score) => console.log('Score:', score)}
         onLevelChange={(level) => console.log('Level:', level)}
       />
-      <button onClick={() => game.current?.start()}>Start</button>
-      <button onClick={() => game.current?.restart()}>Restart</button>
+      <div style={{ marginTop: '1rem' }}>
+        <button onClick={() => game.current?.start()}>Start</button>
+        <button onClick={() => game.current?.restart()}>Restart</button>
+      </div>
     </>
   );
 }
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
 ```
 
 ## 📝 API
