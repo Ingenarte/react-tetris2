@@ -9,7 +9,7 @@ export default defineConfig({
   /* Spins up the playground before the tests run */
   webServer: {
     // Starts Vite in the playground directory
-    command: 'pnpm vite --port 5173',
+    command: 'npm run dev -- --port 5173',
     port: 5173,
     cwd: 'test/playground',
     reuseExistingServer: !process.env.CI // speeds up local runs
