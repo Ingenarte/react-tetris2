@@ -6,6 +6,8 @@
 
 > **react‑tetris2** – Plug-and-play `<Tetris2/>` component for **React 18+**, built with TypeScript.
 
+> 🎮 **[Live Demo – Try Tetris2 here](https://ingenarte.github.io/react-tetris2/)** ⬅️
+
 ## ✨ Features
 
 - **Fully typed API** – Strictly typed props and methods with TypeScript 5.

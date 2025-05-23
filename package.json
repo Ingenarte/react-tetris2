@@ -1,8 +1,8 @@
 {
   "name": "react-tetris2",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
-  "description": "A configurable and type-safe Tetris game for React apps, playable via keyboard and built in TypeScript",
+  "description": "Classic Tetris game as a reusable React 18+ component, fully typed with TypeScript and controllable via ref.",
   "engines": {
     "node": ">=20.0.0"
   },
