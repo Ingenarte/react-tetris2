@@ -137,7 +137,6 @@
   "dependencies": {
     "keymaster": "1.6.2",
     "react-icons": "^5.5.0",
-    "react-tetris2": "file:react-tetris2-0.1.0.tgz",
     "styled-components": "^5.3.11"
   }
 }
